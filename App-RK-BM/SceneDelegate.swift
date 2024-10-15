@@ -1,8 +1,8 @@
 //
 //  SceneDelegate.swift
-//  App-RK-BM
+//  App-RK-Wearable
 //
-//  Created by Luis Mora on 15/10/24.
+//  Created by Luis Mora on 10/10/24.
 //
 
 import UIKit

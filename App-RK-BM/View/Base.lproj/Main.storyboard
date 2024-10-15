@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23094" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23084"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Initial View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController title="Initial View Controller" id="BYZ-38-t0r" customClass="IntroViewController" customModule="App_RK_BM" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <connections>
+                        <segue destination="vmF-GY-36f" kind="custom" identifier="toConsent" customClass="IntroSegue" customModule="App_RK_BM" customModuleProvider="target" id="Me7-ps-tMf"/>
+                        <segue destination="OLQ-sH-saM" kind="custom" identifier="toTasks" customClass="IntroSegue" customModule="App_RK_BM" customModuleProvider="target" id="qEd-wn-ZxX"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="20" y="-34"/>
+        </scene>
+        <!--Consent View Controller-->
+        <scene sceneID="hKe-Av-Nm3">
+            <objects>
+                <viewController title="Consent View Controller" id="vmF-GY-36f" customClass="ConsentViewController" customModule="App_RK_BM" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Gyu-5C-c1N">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="842"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tnc-29-hO3">
+                                <rect key="frame" x="121" y="610" width="151" height="35"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="tinted" title="Unirse al estudio"/>
+                                <connections>
+                                    <action selector="joinButtonTapped:" destination="vmF-GY-36f" eventType="touchUpInside" id="UL8-Pl-ihZ"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="2S2-96-Ned"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="qWp-Lv-Ulz"/>
+                    <connections>
+                        <outlet property="joinButton" destination="Gyu-5C-c1N" id="rBr-MM-Vlx"/>
+                        <segue destination="ddS-Av-vTr" kind="unwind" identifier="unwindToTasks" unwindAction="unwindToTasks:" id="cwJ-Vu-XzX"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="XEh-Ng-Lec" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="ddS-Av-vTr" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="993" y="-374"/>
+        </scene>
+        <!--Forms View Controller-->
+        <scene sceneID="6ij-N0-oti">
+            <objects>
+                <viewController title="Forms View Controller" id="KX0-qu-BAE" customClass="FormsViewController" customModule="App_RK_BM" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Fp4-dF-zzz">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="842"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="tYd-q1-D8n"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="5Ip-ZS-SOy"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="GuF-2W-M9c" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2250" y="-61"/>
+        </scene>
+        <!--Activities View Controller-->
+        <scene sceneID="M9l-7T-uv5">
+            <objects>
+                <viewController title="Activities View Controller" id="I2a-g2-dlI" customClass="ActivitiesViewController" customModule="App_RK_BM" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="aY0-Di-EMI">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="842"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="vup-ms-2SU"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="ql3-ak-mB9"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="glU-IZ-qly" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2251" y="658"/>
+        </scene>
+        <!--Task View Controller-->
+        <scene sceneID="RLt-pH-54a">
+            <objects>
+                <viewController title="Task View Controller" id="OLQ-sH-saM" customClass="TasksViewController" customModule="App_RK_BM" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="z9A-Lt-pzn">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eEW-Od-AfA">
+                                <rect key="frame" x="8" y="659.33333333333337" width="350" height="54.333333333333371"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vHA-mw-xdA">
+                                        <rect key="frame" x="0.0" y="0.0" width="175" height="54.333333333333336"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" image="person.2.fill" catalog="system" title="Invitar al estudio"/>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gzB-vT-nqb">
+                                        <rect key="frame" x="175" y="0.0" width="175" height="54.333333333333336"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" image="document.circle.fill" catalog="system" title="Documento de consentimiento"/>
+                                        <connections>
+                                            <action selector="documentButtonTapped:" destination="OLQ-sH-saM" eventType="touchUpInside" id="0nP-IE-fxl"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="350" id="Xlh-BQ-39M"/>
+                                </constraints>
+                            </stackView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0qv-ga-9nF">
+                                <rect key="frame" x="123.66666666666667" y="733.66666666666663" width="145.33333333333331" height="34.333333333333371"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Salir del estudio">
+                                    <color key="baseForegroundColor" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="leaveButtonTapped:" destination="OLQ-sH-saM" eventType="touchUpInside" id="x9O-i7-1Xz"/>
+                                    <segue destination="vmF-GY-36f" kind="show" identifier="returnToConsent" id="yTp-kn-hsu"/>
+                                </connections>
+                            </button>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="LAm-DR-bGm">
+                                <rect key="frame" x="96" y="425.66666666666669" width="200" height="78.666666666666686"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RkJ-kK-eM4">
+                                        <rect key="frame" x="0.0" y="0.0" width="200" height="34.333333333333336"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="filled" title="Formularios"/>
+                                        <connections>
+                                            <segue destination="KX0-qu-BAE" kind="show" id="bh5-Nx-VQ6"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qjb-CI-QvM">
+                                        <rect key="frame" x="0.0" y="44.333333333333314" width="200" height="34.333333333333343"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="filled" title="Actividades"/>
+                                        <connections>
+                                            <segue destination="I2a-g2-dlI" kind="show" id="eJs-OR-igC"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="200" id="zlo-b5-dxl"/>
+                                </constraints>
+                            </stackView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="nuD-9K-Tuc">
+                                <rect key="frame" x="66" y="134" width="260" height="110"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Autenticación" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6b8-HP-xcF">
+                                        <rect key="frame" x="0.0" y="0.0" width="260" height="21.666666666666668"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="9qh-KR-mdG">
+                                        <rect key="frame" x="0.0" y="29.66666666666665" width="260" height="80.333333333333314"/>
+                                        <subviews>
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="kxL-Cf-nbi">
+                                                <rect key="frame" x="0.0" y="0.0" width="126" height="80.333333333333329"/>
+                                                <subviews>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jwQ-rw-0Yf">
+                                                        <rect key="frame" x="0.0" y="0.0" width="126" height="38"/>
+                                                        <state key="normal" title="Button"/>
+                                                        <buttonConfiguration key="configuration" style="gray" image="googleIcon" title="Google"/>
+                                                        <connections>
+                                                            <action selector="googleSignInTapped:" destination="OLQ-sH-saM" eventType="touchUpInside" id="Z6k-c9-3eB"/>
+                                                        </connections>
+                                                    </button>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0xm-ch-nZM">
+                                                        <rect key="frame" x="0.0" y="46" width="126" height="34.333333333333343"/>
+                                                        <state key="normal" title="Button"/>
+                                                        <buttonConfiguration key="configuration" style="gray" title="Cerrar sesión">
+                                                            <color key="baseForegroundColor" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        </buttonConfiguration>
+                                                        <connections>
+                                                            <action selector="googleSignOutTapped:" destination="OLQ-sH-saM" eventType="touchUpInside" id="kFG-XV-5yk"/>
+                                                        </connections>
+                                                    </button>
+                                                </subviews>
+                                            </stackView>
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="0SA-y0-bg1">
+                                                <rect key="frame" x="134" y="0.0" width="126" height="80.333333333333329"/>
+                                                <subviews>
+                                                    <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RhZ-L9-i3V">
+                                                        <rect key="frame" x="0.0" y="0.0" width="126" height="38"/>
+                                                        <state key="normal" title="Button"/>
+                                                        <buttonConfiguration key="configuration" style="gray" title="Correo"/>
+                                                    </button>
+                                                    <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iWG-zX-MWE">
+                                                        <rect key="frame" x="0.0" y="46" width="126" height="34.333333333333343"/>
+                                                        <state key="normal" title="Button"/>
+                                                        <buttonConfiguration key="configuration" style="gray" title="Cerrar sesión"/>
+                                                    </button>
+                                                </subviews>
+                                            </stackView>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="GaP-oB-Yjf"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="GaP-oB-Yjf" firstAttribute="trailing" secondItem="LAm-DR-bGm" secondAttribute="trailing" constant="97" id="9Cu-Ce-zPb"/>
+                            <constraint firstItem="nuD-9K-Tuc" firstAttribute="top" secondItem="GaP-oB-Yjf" secondAttribute="top" constant="75" id="9Ya-tY-Ez0"/>
+                            <constraint firstItem="0qv-ga-9nF" firstAttribute="top" secondItem="eEW-Od-AfA" secondAttribute="bottom" constant="20" id="ARH-aF-o60"/>
+                            <constraint firstItem="GaP-oB-Yjf" firstAttribute="trailing" secondItem="0qv-ga-9nF" secondAttribute="trailing" constant="124" id="Bvd-eV-HWO"/>
+                            <constraint firstItem="GaP-oB-Yjf" firstAttribute="bottom" secondItem="0qv-ga-9nF" secondAttribute="bottom" constant="50" id="I69-jy-l69"/>
+                            <constraint firstItem="nuD-9K-Tuc" firstAttribute="leading" secondItem="GaP-oB-Yjf" secondAttribute="leading" constant="66" id="ZrM-S0-mkc"/>
+                            <constraint firstItem="GaP-oB-Yjf" firstAttribute="trailing" secondItem="eEW-Od-AfA" secondAttribute="trailing" constant="35" id="aSd-6J-aMf"/>
+                            <constraint firstItem="eEW-Od-AfA" firstAttribute="top" secondItem="LAm-DR-bGm" secondAttribute="bottom" constant="155" id="ms4-Vl-ZWZ"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="documentButton" destination="gzB-vT-nqb" id="ZaV-rh-tzd"/>
+                        <outlet property="leaveButton" destination="0qv-ga-9nF" id="wiF-c1-m0s"/>
+                        <outlet property="signInGoogle" destination="jwQ-rw-0Yf" id="RUW-5c-h11"/>
+                        <outlet property="signOutGoogle" destination="0xm-ch-nZM" id="Cbz-wG-NKd"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="7Lq-vc-IqC" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="991.60305343511448" y="315.49295774647891"/>
+        </scene>
+    </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="yTp-kn-hsu"/>
+    </inferredMetricsTieBreakers>
+    <resources>
+        <image name="document.circle.fill" catalog="system" width="128" height="123"/>
+        <image name="googleIcon" width="24" height="24"/>
+        <image name="person.2.fill" catalog="system" width="128" height="86"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>
