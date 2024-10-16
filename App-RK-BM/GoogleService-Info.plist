@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>791586385783-cltnretmneguvgn4q0karqdu4ne0qspq.apps.googleusercontent.com</string>
+	<string>791586385783-f3dufff1iqsjss7a9e9u8e7oeh29i8j1.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.791586385783-cltnretmneguvgn4q0karqdu4ne0qspq</string>
+	<string>com.googleusercontent.apps.791586385783-f3dufff1iqsjss7a9e9u8e7oeh29i8j1</string>
 	<key>API_KEY</key>
 	<string>AIzaSyBpt9FLj3zTvRxhdQ5YHMtKnrXrrLAEU6I</string>
 	<key>GCM_SENDER_ID</key>
@@ -13,7 +13,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.biomarkers.AppBiomarkers</string>
+	<string>com.biomarkers.App-RK-BM</string>
 	<key>PROJECT_ID</key>
 	<string>fir-biomarkers-1ac51</string>
 	<key>STORAGE_BUCKET</key>
@@ -29,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:791586385783:ios:27d41fa175bcf286f37b72</string>
+	<string>1:791586385783:ios:30e553d2de696364f37b72</string>
 </dict>
 </plist>

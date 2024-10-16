@@ -155,70 +155,14 @@
                                     <constraint firstAttribute="width" constant="200" id="zlo-b5-dxl"/>
                                 </constraints>
                             </stackView>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="nuD-9K-Tuc">
-                                <rect key="frame" x="66" y="134" width="260" height="110"/>
-                                <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Autenticación" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6b8-HP-xcF">
-                                        <rect key="frame" x="0.0" y="0.0" width="260" height="21.666666666666668"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="9qh-KR-mdG">
-                                        <rect key="frame" x="0.0" y="29.66666666666665" width="260" height="80.333333333333314"/>
-                                        <subviews>
-                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="kxL-Cf-nbi">
-                                                <rect key="frame" x="0.0" y="0.0" width="126" height="80.333333333333329"/>
-                                                <subviews>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jwQ-rw-0Yf">
-                                                        <rect key="frame" x="0.0" y="0.0" width="126" height="38"/>
-                                                        <state key="normal" title="Button"/>
-                                                        <buttonConfiguration key="configuration" style="gray" image="googleIcon" title="Google"/>
-                                                        <connections>
-                                                            <action selector="googleSignInTapped:" destination="OLQ-sH-saM" eventType="touchUpInside" id="Z6k-c9-3eB"/>
-                                                        </connections>
-                                                    </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0xm-ch-nZM">
-                                                        <rect key="frame" x="0.0" y="46" width="126" height="34.333333333333343"/>
-                                                        <state key="normal" title="Button"/>
-                                                        <buttonConfiguration key="configuration" style="gray" title="Cerrar sesión">
-                                                            <color key="baseForegroundColor" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                        </buttonConfiguration>
-                                                        <connections>
-                                                            <action selector="googleSignOutTapped:" destination="OLQ-sH-saM" eventType="touchUpInside" id="kFG-XV-5yk"/>
-                                                        </connections>
-                                                    </button>
-                                                </subviews>
-                                            </stackView>
-                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="0SA-y0-bg1">
-                                                <rect key="frame" x="134" y="0.0" width="126" height="80.333333333333329"/>
-                                                <subviews>
-                                                    <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RhZ-L9-i3V">
-                                                        <rect key="frame" x="0.0" y="0.0" width="126" height="38"/>
-                                                        <state key="normal" title="Button"/>
-                                                        <buttonConfiguration key="configuration" style="gray" title="Correo"/>
-                                                    </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iWG-zX-MWE">
-                                                        <rect key="frame" x="0.0" y="46" width="126" height="34.333333333333343"/>
-                                                        <state key="normal" title="Button"/>
-                                                        <buttonConfiguration key="configuration" style="gray" title="Cerrar sesión"/>
-                                                    </button>
-                                                </subviews>
-                                            </stackView>
-                                        </subviews>
-                                    </stackView>
-                                </subviews>
-                            </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="GaP-oB-Yjf"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="GaP-oB-Yjf" firstAttribute="trailing" secondItem="LAm-DR-bGm" secondAttribute="trailing" constant="97" id="9Cu-Ce-zPb"/>
-                            <constraint firstItem="nuD-9K-Tuc" firstAttribute="top" secondItem="GaP-oB-Yjf" secondAttribute="top" constant="75" id="9Ya-tY-Ez0"/>
                             <constraint firstItem="0qv-ga-9nF" firstAttribute="top" secondItem="eEW-Od-AfA" secondAttribute="bottom" constant="20" id="ARH-aF-o60"/>
                             <constraint firstItem="GaP-oB-Yjf" firstAttribute="trailing" secondItem="0qv-ga-9nF" secondAttribute="trailing" constant="124" id="Bvd-eV-HWO"/>
                             <constraint firstItem="GaP-oB-Yjf" firstAttribute="bottom" secondItem="0qv-ga-9nF" secondAttribute="bottom" constant="50" id="I69-jy-l69"/>
-                            <constraint firstItem="nuD-9K-Tuc" firstAttribute="leading" secondItem="GaP-oB-Yjf" secondAttribute="leading" constant="66" id="ZrM-S0-mkc"/>
                             <constraint firstItem="GaP-oB-Yjf" firstAttribute="trailing" secondItem="eEW-Od-AfA" secondAttribute="trailing" constant="35" id="aSd-6J-aMf"/>
                             <constraint firstItem="eEW-Od-AfA" firstAttribute="top" secondItem="LAm-DR-bGm" secondAttribute="bottom" constant="155" id="ms4-Vl-ZWZ"/>
                         </constraints>
@@ -226,8 +170,6 @@
                     <connections>
                         <outlet property="documentButton" destination="gzB-vT-nqb" id="ZaV-rh-tzd"/>
                         <outlet property="leaveButton" destination="0qv-ga-9nF" id="wiF-c1-m0s"/>
-                        <outlet property="signInGoogle" destination="jwQ-rw-0Yf" id="RUW-5c-h11"/>
-                        <outlet property="signOutGoogle" destination="0xm-ch-nZM" id="Cbz-wG-NKd"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7Lq-vc-IqC" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -240,7 +182,6 @@
     </inferredMetricsTieBreakers>
     <resources>
         <image name="document.circle.fill" catalog="system" width="128" height="123"/>
-        <image name="googleIcon" width="24" height="24"/>
         <image name="person.2.fill" catalog="system" width="128" height="86"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
