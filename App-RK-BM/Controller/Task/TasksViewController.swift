@@ -12,6 +12,8 @@ class TasksViewController: UIViewController {
 
     @IBOutlet weak var documentButton: UIButton!
     @IBOutlet weak var leaveButton: UIButton!
+    @IBOutlet weak var activitiesButton: UIButton!
+    @IBOutlet weak var formsButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,6 +43,22 @@ class TasksViewController: UIViewController {
         let PDFViewerStep = ORKPDFViewerStep.init(identifier: "ConsentPDFViewer", pdfURL: docURL)
         PDFViewerStep.title = "Consent"
         return ORKOrderedTask(identifier: String("ConsentPDF"), steps: [PDFViewerStep])
+    }
+    
+    func toForms() {
+        performSegue(withIdentifier: "toForms", sender: self)
+    }
+    
+    func toActivities() {
+        performSegue(withIdentifier: "toActivities", sender: self)
+    }
+    
+    @IBAction func formsButtonTapped(_ sender: UIButton) {
+        toForms()
+    }
+    
+    @IBAction func activitiesButtonTapped(_ sender: UIButton) {
+        toActivities()
     }
     
 }

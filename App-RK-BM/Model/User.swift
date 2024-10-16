@@ -10,17 +10,20 @@ class User {
     private var name: String = ""
     private var surname: String = ""
     private var email: String = ""
-    private var accepted: Bool = false
+    private var stateIPAQ: Bool = false
+    private var stateMMSE: Bool = false
     
-    init(name: String, surname: String, email: String, accepted: Bool) {
+    init(name: String, surname: String, email: String, stateIPAQ: Bool, stateMMSE: Bool) {
         self.name = name
         self.surname = surname
         self.email = email
-        self.accepted = accepted
+        self.stateIPAQ = stateIPAQ
+        self.stateMMSE = stateMMSE
     }
     
-    init() {
-        
+    init(name: String, surname: String) {
+        self.name = name
+        self.surname = surname
     }
     
     // getters y setters
@@ -36,10 +39,6 @@ class User {
         return self.email
     }
     
-    public func getAccepted() -> Bool {
-        return self.accepted
-    }
-    
     public func setName(name: String) {
         self.name = name
     }
@@ -52,8 +51,21 @@ class User {
         self.email = email
     }
     
-    public func setAccepted(status: Bool) {
-        self.accepted = status
+    // formularios
+    public func setStateIPAQ(state: Bool) {
+        self.stateIPAQ = state
+    }
+    
+    public func setStateMMSE(state: Bool) {
+        self.stateMMSE = state
+    }
+    
+    public func didFillOutIPAQ() -> Bool {
+        return self.stateIPAQ
+    }
+    
+    public func didFillOutMMSE() -> Bool {
+        return self.stateMMSE
     }
     
 }

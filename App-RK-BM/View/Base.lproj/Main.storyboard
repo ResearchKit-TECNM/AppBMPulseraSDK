@@ -32,11 +32,11 @@
             <objects>
                 <viewController title="Consent View Controller" id="vmF-GY-36f" customClass="ConsentViewController" customModule="App_RK_BM" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Gyu-5C-c1N">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tnc-29-hO3">
-                                <rect key="frame" x="121" y="586.66666666666663" width="151" height="34.333333333333371"/>
+                                <rect key="frame" x="121" y="610.66666666666663" width="151" height="34.333333333333371"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="tinted" title="Unirse al estudio"/>
                                 <connections>
@@ -44,7 +44,7 @@
                                 </connections>
                             </button>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="uNB-F3-JBW">
-                                <rect key="frame" x="121" y="314" width="150" height="84"/>
+                                <rect key="frame" x="121" y="255" width="150" height="84"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Autenticación" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="F0I-Pn-MZu">
                                         <rect key="frame" x="0.0" y="0.0" width="150" height="38"/>
@@ -114,7 +114,7 @@
                         <viewLayoutGuide key="safeArea" id="vup-ms-2SU"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
-                    <navigationItem key="navigationItem" id="ql3-ak-mB9"/>
+                    <navigationItem key="navigationItem" largeTitleDisplayMode="always" id="ql3-ak-mB9"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="glU-IZ-qly" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -168,7 +168,8 @@
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="filled" title="Formularios"/>
                                         <connections>
-                                            <segue destination="KX0-qu-BAE" kind="show" id="bh5-Nx-VQ6"/>
+                                            <action selector="formsButtonTapped:" destination="OLQ-sH-saM" eventType="touchUpInside" id="oBr-Z2-SwH"/>
+                                            <segue destination="KX0-qu-BAE" kind="show" identifier="toForms" id="bh5-Nx-VQ6"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qjb-CI-QvM">
@@ -176,7 +177,8 @@
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="filled" title="Actividades"/>
                                         <connections>
-                                            <segue destination="I2a-g2-dlI" kind="show" id="eJs-OR-igC"/>
+                                            <action selector="activitiesButtonTapped:" destination="OLQ-sH-saM" eventType="touchUpInside" id="Fmr-34-LSL"/>
+                                            <segue destination="I2a-g2-dlI" kind="show" identifier="toActivities" id="eJs-OR-igC"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -197,7 +199,9 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="activitiesButton" destination="Qjb-CI-QvM" id="Olh-Ng-fIS"/>
                         <outlet property="documentButton" destination="gzB-vT-nqb" id="ZaV-rh-tzd"/>
+                        <outlet property="formsButton" destination="RkJ-kK-eM4" id="l4n-vD-YHP"/>
                         <outlet property="leaveButton" destination="0qv-ga-9nF" id="wiF-c1-m0s"/>
                     </connections>
                 </viewController>
@@ -207,7 +211,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="Me7-ps-tMf"/>
+        <segue reference="yTp-kn-hsu"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="document.circle.fill" catalog="system" width="128" height="123"/>
