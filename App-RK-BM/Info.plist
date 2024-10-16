@@ -3,11 +3,22 @@
 <plist version="1.0">
 <dict>
 	<key>NSHealthUpdateUsageDescription</key>
-	<string>Usaremos su información para nuestro estudio.</string>
+	<string>Usaremos su información de manera anonima para nuestro estudio.</string>
 	<key>NSHealthShareUsageDescription</key>
-	<string>Usaremos su información para nuestro estudio.</string>
+	<string>Usaremos su información de manera anonima para nuestro estudio.</string>
 	<key>NSHealthClinicalHealthRecordsShareUsageDescription</key>
-	<string>Usaremos su información para nuestro estudio.</string>
+	<string>Usaremos su información de manera anonima para nuestro estudio.</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.791586385783-f3dufff1iqsjss7a9e9u8e7oeh29i8j1</string>
+			</array>
+		</dict>
+	</array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

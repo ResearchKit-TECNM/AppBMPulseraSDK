@@ -32,24 +32,53 @@
             <objects>
                 <viewController title="Consent View Controller" id="vmF-GY-36f" customClass="ConsentViewController" customModule="App_RK_BM" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Gyu-5C-c1N">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tnc-29-hO3">
-                                <rect key="frame" x="121" y="610" width="151" height="35"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tnc-29-hO3">
+                                <rect key="frame" x="121" y="586.66666666666663" width="151" height="34.333333333333371"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="tinted" title="Unirse al estudio"/>
                                 <connections>
                                     <action selector="joinButtonTapped:" destination="vmF-GY-36f" eventType="touchUpInside" id="UL8-Pl-ihZ"/>
                                 </connections>
                             </button>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="uNB-F3-JBW">
+                                <rect key="frame" x="121" y="314" width="150" height="84"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Autenticación" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="F0I-Pn-MZu">
+                                        <rect key="frame" x="0.0" y="0.0" width="150" height="38"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3hw-kF-cCb">
+                                        <rect key="frame" x="0.0" y="46" width="150" height="38"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="gray" image="googleIcon" title="Google"/>
+                                        <connections>
+                                            <action selector="googleButtonTapped:" destination="vmF-GY-36f" eventType="touchUpInside" id="cyA-TR-E7t"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="150" id="ACu-N2-mqa"/>
+                                    <constraint firstAttribute="width" constant="150" id="xgA-1l-8Yp"/>
+                                </constraints>
+                            </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="2S2-96-Ned"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="2S2-96-Ned" firstAttribute="trailing" secondItem="uNB-F3-JBW" secondAttribute="trailing" constant="122" id="DUl-s6-hmC"/>
+                            <constraint firstItem="2S2-96-Ned" firstAttribute="bottom" secondItem="Tnc-29-hO3" secondAttribute="bottom" constant="197" id="FW4-Hv-m9h"/>
+                            <constraint firstItem="2S2-96-Ned" firstAttribute="trailing" secondItem="Tnc-29-hO3" secondAttribute="trailing" constant="121" id="eZo-4x-fkZ"/>
+                            <constraint firstItem="uNB-F3-JBW" firstAttribute="top" secondItem="2S2-96-Ned" secondAttribute="top" constant="255" id="oMP-xd-pBq"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="qWp-Lv-Ulz"/>
                     <connections>
+                        <outlet property="googleButton" destination="3hw-kF-cCb" id="wI0-E6-Gkh"/>
                         <outlet property="joinButton" destination="Gyu-5C-c1N" id="rBr-MM-Vlx"/>
                         <segue destination="ddS-Av-vTr" kind="unwind" identifier="unwindToTasks" unwindAction="unwindToTasks:" id="cwJ-Vu-XzX"/>
                     </connections>
@@ -178,10 +207,11 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="yTp-kn-hsu"/>
+        <segue reference="Me7-ps-tMf"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="document.circle.fill" catalog="system" width="128" height="123"/>
+        <image name="googleIcon" width="24" height="24"/>
         <image name="person.2.fill" catalog="system" width="128" height="86"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

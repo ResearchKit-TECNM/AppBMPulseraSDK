@@ -7,10 +7,15 @@
 
 import UIKit
 import ResearchKitUI
+import GoogleSignIn
+import FirebaseCore
 
 class ConsentViewController: UIViewController {
 
     @IBOutlet weak var joinButton: UIView!
+    @IBOutlet weak var googleButton: UIButton!
+    
+    private var status: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,12 +27,43 @@ class ConsentViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
-    @IBAction func joinButtonTapped(_ sender: UIButton) {
-        let taskViewController = ORKTaskViewController(task: ConsentTask, taskRun: nil)
-        taskViewController.delegate = self
-        present(taskViewController, animated: true, completion: nil)
+    
+    @IBAction func googleButtonTapped(_ sender: UIButton) {
+        guard let clientID = FirebaseApp.app()?.options.clientID else { return }
+        let config = GIDConfiguration(clientID: clientID)
+            
+        GIDSignIn.sharedInstance.configuration = config
+        GIDSignIn.sharedInstance.signIn(withPresenting: self)
+            
+        // habilitar boton de inicio de sesion
+        self.status = true
+        showAlert(title: "Autenticación", message: "Sesión iniciada correctamente.")
+        
     }
+    
+    @IBAction func joinButtonTapped(_ sender: UIButton) {
+        if status == true {
+            let taskViewController = ORKTaskViewController(task: ConsentTask, taskRun: nil)
+            taskViewController.delegate = self
+            present(taskViewController, animated: true, completion: nil)
+        } else {
+            showAlert(title: "Alerta", message: "Para unirse al estudio, primero debe iniciar sesión.")
+        }
+    }
+    
+    func showAlert(title: String, message: String) {
+            // Crear el controlador de alerta
+            let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+            
+            // Añadir una acción (botón) al controlador de alerta
+            let okAction = UIAlertAction(title: "OK", style: .default) { _ in
+                print("El usuario presionó OK")
+            }
+            alertController.addAction(okAction)
+            
+            // Mostrar la alerta
+            present(alertController, animated: true, completion: nil)
+        }
     
 }
 
