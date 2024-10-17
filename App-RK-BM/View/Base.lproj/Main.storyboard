@@ -93,14 +93,39 @@
             <objects>
                 <viewController title="Forms View Controller" id="KX0-qu-BAE" customClass="FormsViewController" customModule="App_RK_BM" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Fp4-dF-zzz">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LYv-9y-gSa">
+                                <rect key="frame" x="0.0" y="50" width="108" height="35"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" image="chevron.backward" catalog="system" title="Regresar"/>
+                                <connections>
+                                    <segue destination="6a0-q8-4dY" kind="unwind" unwindAction="unwindToTaskView:" id="MHX-AW-iPI"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="njn-g4-WJg">
+                                <rect key="frame" x="129" y="409" width="135" height="35"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="filled" title="Cambiar datos"/>
+                                <connections>
+                                    <action selector="updateUser:" destination="KX0-qu-BAE" eventType="touchUpInside" id="0Lm-Yb-R4D"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="tYd-q1-D8n"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="njn-g4-WJg" firstAttribute="top" secondItem="tYd-q1-D8n" secondAttribute="top" constant="409" id="JG4-ZT-Lj0"/>
+                            <constraint firstItem="LYv-9y-gSa" firstAttribute="leading" secondItem="tYd-q1-D8n" secondAttribute="leading" id="Jd6-f3-rtG"/>
+                            <constraint firstItem="LYv-9y-gSa" firstAttribute="top" secondItem="tYd-q1-D8n" secondAttribute="top" constant="50" id="OTp-fc-rPg"/>
+                            <constraint firstItem="tYd-q1-D8n" firstAttribute="trailing" secondItem="njn-g4-WJg" secondAttribute="trailing" constant="129" id="RJm-me-4kh"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="5Ip-ZS-SOy"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GuF-2W-M9c" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="6a0-q8-4dY" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="2250" y="-61"/>
         </scene>
@@ -109,14 +134,31 @@
             <objects>
                 <viewController title="Activities View Controller" id="I2a-g2-dlI" customClass="ActivitiesViewController" customModule="App_RK_BM" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="aY0-Di-EMI">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yhH-EN-unQ">
+                                <rect key="frame" x="0.0" y="50" width="108" height="35"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" image="chevron.backward" catalog="system" title="Regresar"/>
+                                <connections>
+                                    <segue destination="FPa-yg-Rkz" kind="unwind" identifier="unwindToTaskView" unwindAction="unwindToTaskView:" id="eWR-EP-z9I"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="vup-ms-2SU"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="yhH-EN-unQ" firstAttribute="leading" secondItem="vup-ms-2SU" secondAttribute="leading" id="LYp-aV-fPS"/>
+                            <constraint firstItem="yhH-EN-unQ" firstAttribute="top" secondItem="vup-ms-2SU" secondAttribute="top" constant="50" id="sVd-Lc-V6r"/>
+                        </constraints>
                     </view>
-                    <navigationItem key="navigationItem" largeTitleDisplayMode="always" id="ql3-ak-mB9"/>
+                    <navigationItem key="navigationItem" title="Actividades" largeTitleDisplayMode="always" id="ql3-ak-mB9">
+                        <barButtonItem key="backBarButtonItem" title="Back" id="730-el-xad"/>
+                    </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="glU-IZ-qly" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="FPa-yg-Rkz" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="2251" y="658"/>
         </scene>
@@ -169,7 +211,7 @@
                                         <buttonConfiguration key="configuration" style="filled" title="Formularios"/>
                                         <connections>
                                             <action selector="formsButtonTapped:" destination="OLQ-sH-saM" eventType="touchUpInside" id="oBr-Z2-SwH"/>
-                                            <segue destination="KX0-qu-BAE" kind="show" identifier="toForms" id="bh5-Nx-VQ6"/>
+                                            <segue destination="KX0-qu-BAE" kind="presentation" identifier="toForms" modalPresentationStyle="fullScreen" id="bh5-Nx-VQ6"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qjb-CI-QvM">
@@ -178,7 +220,7 @@
                                         <buttonConfiguration key="configuration" style="filled" title="Actividades"/>
                                         <connections>
                                             <action selector="activitiesButtonTapped:" destination="OLQ-sH-saM" eventType="touchUpInside" id="Fmr-34-LSL"/>
-                                            <segue destination="I2a-g2-dlI" kind="show" identifier="toActivities" id="eJs-OR-igC"/>
+                                            <segue destination="I2a-g2-dlI" kind="presentation" identifier="toActivities" modalPresentationStyle="fullScreen" id="eJs-OR-igC"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -214,6 +256,7 @@
         <segue reference="yTp-kn-hsu"/>
     </inferredMetricsTieBreakers>
     <resources>
+        <image name="chevron.backward" catalog="system" width="97" height="128"/>
         <image name="document.circle.fill" catalog="system" width="128" height="123"/>
         <image name="googleIcon" width="24" height="24"/>
         <image name="person.2.fill" catalog="system" width="128" height="86"/>

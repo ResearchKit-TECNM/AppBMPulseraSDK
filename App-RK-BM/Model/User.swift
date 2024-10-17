@@ -7,8 +7,8 @@
 
 class User {
     // variables
-    private var name: String = ""
-    private var surname: String = ""
+    public var name: String = ""
+    public var surname: String = ""
     private var email: String = ""
     private var stateIPAQ: Bool = false
     private var stateMMSE: Bool = false

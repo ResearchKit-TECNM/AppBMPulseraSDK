@@ -9,6 +9,8 @@ import UIKit
 import ResearchKitUI
 
 class TasksViewController: UIViewController {
+    
+    var user: User?
 
     @IBOutlet weak var documentButton: UIButton!
     @IBOutlet weak var leaveButton: UIButton!
@@ -24,6 +26,14 @@ class TasksViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "toForms" {
+            let formsControlller = segue.destination as! FormsViewController
+            formsControlller.userDelegate = user
+            formsControlller.delegate = self
+        }
     }
     
     @IBAction func leaveButtonTapped(_ sender: UIButton) {
@@ -46,6 +56,11 @@ class TasksViewController: UIViewController {
     }
     
     func toForms() {
+        // delegar usuario
+        self.user = User(name: "Luis", surname: "Mora")
+        print("\(self.user?.name) \(self.user?.surname)")
+        
+        // activar el segue
         performSegue(withIdentifier: "toForms", sender: self)
     }
     
@@ -61,10 +76,23 @@ class TasksViewController: UIViewController {
         toActivities()
     }
     
+    @IBAction func unwindToTaskView(_ sender: UIStoryboardSegue) {
+        // Aquí puedes agregar lógica adicional si es necesario
+    }
+    
 }
 
 extension TasksViewController: ORKTaskViewControllerDelegate{
     func taskViewController(_ taskViewController: ORKTaskViewController, didFinishWith reason: ORKTaskFinishReason, error: Error?) {
         taskViewController.dismiss(animated: true, completion: nil)
     }
+}
+
+extension TasksViewController: UserDelegate {
+    func didUpdateUser(_ user: User) {
+        // Aquí recibes el objeto actualizado desde B
+        self.user = user
+        print("Usuario actualizado: \(user.name), \(user.surname)")
+    }
+    
 }
