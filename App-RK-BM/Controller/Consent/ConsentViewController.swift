@@ -9,6 +9,7 @@ import UIKit
 import ResearchKitUI
 import GoogleSignIn
 import FirebaseCore
+import FirebaseAuth
 
 class ConsentViewController: UIViewController {
 
@@ -29,11 +30,31 @@ class ConsentViewController: UIViewController {
     }
     
     @IBAction func googleButtonTapped(_ sender: UIButton) {
-        guard let clientID = FirebaseApp.app()?.options.clientID else { return }
-        let config = GIDConfiguration(clientID: clientID)
-            
-        GIDSignIn.sharedInstance.configuration = config
-        GIDSignIn.sharedInstance.signIn(withPresenting: self)
+        // codigo de inicio de sesion con google
+        GIDSignIn.sharedInstance.signIn(withPresenting: self) { [unowned self] result, error in
+            if let error = error {
+                print("Error al iniciar sesión con Google: \(error.localizedDescription)")
+                return
+            }
+
+            // El inicio de sesión fue exitoso
+            guard let result = result else { return }
+            let user = result.user
+            let idToken = user.idToken?.tokenString ?? ""
+            let accessToken = user.accessToken.tokenString
+               
+            // Autenticación con Firebase
+            let credential = GoogleAuthProvider.credential(withIDToken: idToken, accessToken: accessToken)
+               
+            Auth.auth().signIn(with: credential) { authResult, error in
+                if let error = error {
+                    print("Error al autenticar con Firebase: \(error.localizedDescription)")
+                    return
+                }
+                // Usuario autenticado con éxito
+                print("Usuario autenticado en Firebase: \(authResult?.user.displayName ?? "")")
+            }
+        }
             
         // habilitar boton de inicio de sesion
         self.status = true

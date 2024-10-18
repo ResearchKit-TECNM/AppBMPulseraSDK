@@ -19,6 +19,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         lockApp()
         FirebaseApp.configure()
+        
+        // configura Google Sign IN
+        GIDSignIn.sharedInstance.restorePreviousSignIn { user, error in
+            if let error = error {
+                print("Error al restaurar la sesión anterior: \(error.localizedDescription)")
+                return
+            }
+            if let user = user {
+                print("Usuario autenticado: \(user.profile?.name ?? "")")
+            }
+        }
+        
         return true
     }
 

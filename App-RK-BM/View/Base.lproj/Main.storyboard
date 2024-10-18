@@ -101,15 +101,8 @@
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" image="chevron.backward" catalog="system" title="Regresar"/>
                                 <connections>
-                                    <segue destination="6a0-q8-4dY" kind="unwind" unwindAction="unwindToTaskView:" id="MHX-AW-iPI"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="njn-g4-WJg">
-                                <rect key="frame" x="129" y="717.66666666666663" width="135" height="34.333333333333371"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="filled" title="Cambiar datos"/>
-                                <connections>
-                                    <action selector="updateUser:" destination="KX0-qu-BAE" eventType="touchUpInside" id="0Lm-Yb-R4D"/>
+                                    <action selector="backButtonTapped:" destination="KX0-qu-BAE" eventType="touchUpInside" id="Zeu-jF-Ytk"/>
+                                    <segue destination="6a0-q8-4dY" kind="unwind" identifier="unwindToTaskView" unwindAction="unwindToTaskView:" id="MHX-AW-iPI"/>
                                 </connections>
                             </button>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="ZIx-bi-iDt">
@@ -133,6 +126,9 @@
                                         <rect key="frame" x="0.0" y="84.666666666666657" width="273" height="34.333333333333343"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" image="accessibility" catalog="system" title="IPAQ"/>
+                                        <connections>
+                                            <action selector="ipaqButtonTapped:" destination="KX0-qu-BAE" eventType="touchUpInside" id="kqN-n2-VUT"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                             </stackView>
@@ -142,8 +138,6 @@
                         <constraints>
                             <constraint firstItem="LYv-9y-gSa" firstAttribute="leading" secondItem="tYd-q1-D8n" secondAttribute="leading" id="Jd6-f3-rtG"/>
                             <constraint firstItem="LYv-9y-gSa" firstAttribute="top" secondItem="tYd-q1-D8n" secondAttribute="top" constant="50" id="OTp-fc-rPg"/>
-                            <constraint firstItem="tYd-q1-D8n" firstAttribute="bottom" secondItem="njn-g4-WJg" secondAttribute="bottom" constant="100" id="QoN-Nl-www"/>
-                            <constraint firstItem="tYd-q1-D8n" firstAttribute="trailing" secondItem="njn-g4-WJg" secondAttribute="trailing" constant="129" id="RJm-me-4kh"/>
                             <constraint firstItem="ZIx-bi-iDt" firstAttribute="top" secondItem="LYv-9y-gSa" secondAttribute="bottom" constant="100" id="bZZ-6W-deW"/>
                             <constraint firstItem="tYd-q1-D8n" firstAttribute="trailing" secondItem="ZIx-bi-iDt" secondAttribute="trailing" constant="60" id="ekE-x9-AoX"/>
                             <constraint firstItem="ZIx-bi-iDt" firstAttribute="leading" secondItem="tYd-q1-D8n" secondAttribute="leading" constant="60" id="w3l-ON-Q1j"/>
@@ -259,15 +253,31 @@
                                     <constraint firstAttribute="width" constant="200" id="zlo-b5-dxl"/>
                                 </constraints>
                             </stackView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="oUr-Ga-eJe">
+                                <rect key="frame" x="72" y="134" width="250" height="20.333333333333343"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L6F-U7-WH9">
+                                        <rect key="frame" x="0.0" y="0.0" width="250" height="20.333333333333332"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="250" id="0R4-hP-cUk"/>
+                                </constraints>
+                            </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="GaP-oB-Yjf"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="GaP-oB-Yjf" firstAttribute="trailing" secondItem="oUr-Ga-eJe" secondAttribute="trailing" constant="71" id="38M-Gp-ePR"/>
                             <constraint firstItem="GaP-oB-Yjf" firstAttribute="trailing" secondItem="LAm-DR-bGm" secondAttribute="trailing" constant="97" id="9Cu-Ce-zPb"/>
                             <constraint firstItem="0qv-ga-9nF" firstAttribute="top" secondItem="eEW-Od-AfA" secondAttribute="bottom" constant="20" id="ARH-aF-o60"/>
                             <constraint firstItem="GaP-oB-Yjf" firstAttribute="trailing" secondItem="0qv-ga-9nF" secondAttribute="trailing" constant="124" id="Bvd-eV-HWO"/>
                             <constraint firstItem="GaP-oB-Yjf" firstAttribute="bottom" secondItem="0qv-ga-9nF" secondAttribute="bottom" constant="50" id="I69-jy-l69"/>
                             <constraint firstItem="GaP-oB-Yjf" firstAttribute="trailing" secondItem="eEW-Od-AfA" secondAttribute="trailing" constant="35" id="aSd-6J-aMf"/>
+                            <constraint firstItem="oUr-Ga-eJe" firstAttribute="top" secondItem="GaP-oB-Yjf" secondAttribute="top" constant="75" id="lEg-Vv-jfx"/>
                             <constraint firstItem="eEW-Od-AfA" firstAttribute="top" secondItem="LAm-DR-bGm" secondAttribute="bottom" constant="155" id="ms4-Vl-ZWZ"/>
                         </constraints>
                     </view>
@@ -276,6 +286,7 @@
                         <outlet property="documentButton" destination="gzB-vT-nqb" id="ZaV-rh-tzd"/>
                         <outlet property="formsButton" destination="RkJ-kK-eM4" id="l4n-vD-YHP"/>
                         <outlet property="leaveButton" destination="0qv-ga-9nF" id="wiF-c1-m0s"/>
+                        <outlet property="userLabel" destination="L6F-U7-WH9" id="jxL-Oy-hv7"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7Lq-vc-IqC" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
