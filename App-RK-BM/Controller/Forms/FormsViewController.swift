@@ -33,10 +33,10 @@ class FormsViewController: UIViewController {
             self.user = User(stateIPAQ: false, stateMMSE: false)
             print("User inicializado = \(self.user?.stateIPAQ) º \(self.user?.stateMMSE)")
         }
-         self.buttonsForms()
+        // self.buttonsFormsManager()
     }
     
-    func buttonsForms() {
+    func buttonsFormsManager() {
         // habilitar o deshabilitar botones
         if (self.user?.stateIPAQ == true) {
             // si ya lo ha hecho
@@ -96,7 +96,7 @@ extension FormsViewController: ORKTaskViewControllerDelegate {
         case .completed:
             let result = taskViewController.result
             processResults(result: result)
-            self.buttonsForms()
+            self.buttonsFormsManager()
         case .discarded, .failed, .earlyTermination, .saved:
             print("No se completo con exito")
             
@@ -161,7 +161,7 @@ extension FormsViewController: ORKTaskViewControllerDelegate {
                             if let answer = questionResult.answer {
                                 print("Pregunta: \(questionResult.identifier), Respuesta: \(answer)")
                                 questionsList.append(questionResult.identifier)
-                                answersList.append(answer as! String)
+                                answersList.append(answer.description)
                             } else {
                                 print("Pregunta: \(questionResult.identifier), no se encontró respuesta.")
                             }
@@ -177,30 +177,31 @@ extension FormsViewController: ORKTaskViewControllerDelegate {
     }
     
     func updateFormToFirestore(type: String, questions: [String], answers: [String]) {
-        
-        var data: [String: String] = [:]
-        
-        for (index, question) in questions.enumerated() {
-            if index < answers.count {
-                data[question] = answers[index]
+        DispatchQueue.global(qos: .background).async {
+            var data: [String: String] = [:]
+            
+            for (index, question) in questions.enumerated() {
+                if index < answers.count {
+                    data[question] = answers[index]
+                }
             }
-        }
-        print(data)
-        
-        guard let user = Auth.auth().currentUser else {
-            print("No hay usuario autenticado")
-            return
-        }
-        
-        let uid = user.uid
-        
-        let db = Firestore.firestore()
-        
-        db.collection(type).document(uid).setData(data) { error in
-            if let error = error {
-                print("Error al subir el formulario: \(error.localizedDescription)")
-            } else {
-                print("Formulario subido exitosamente para el usuario con UID \(uid).")
+            print(data)
+            
+            guard let user = Auth.auth().currentUser else {
+                print("No hay usuario autenticado")
+                return
+            }
+            
+            let uid = user.uid
+            
+            let db = Firestore.firestore()
+            
+            db.collection(type).document(uid).setData(data) { error in
+                if let error = error {
+                    print("Error al subir el formulario: \(error.localizedDescription)")
+                } else {
+                    print("Formulario subido exitosamente para el usuario con UID \(uid).")
+                }
             }
         }
     }
