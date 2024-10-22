@@ -5,13 +5,14 @@
 //  Created by Luis Mora on 11/10/24.
 //
 
-class User {
+class User: Codable {
     // variables
-    public var name: String = ""
-    public var surname: String = ""
-    public var email: String = ""
     public var stateIPAQ: Bool = false
     public var stateMMSE: Bool = false
     
-    init() {}
+    init(stateIPAQ: Bool, stateMMSE: Bool) {
+        self.stateIPAQ = stateIPAQ
+        self.stateMMSE = stateMMSE
+    }
+    
 }

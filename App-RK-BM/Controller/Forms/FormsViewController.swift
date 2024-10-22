@@ -11,6 +11,9 @@ import FirebaseFirestore
 import FirebaseAuth
 
 class FormsViewController: UIViewController {
+    
+    var user: User?
+    var userPersistence = UserPersistence() // instancia del servicio de persistencia
 
     @IBOutlet weak var ipaqButton: UIButton!
     @IBOutlet weak var mmseButton: UIButton!
@@ -21,7 +24,33 @@ class FormsViewController: UIViewController {
         // Do any additional setup after loading the view.
         title = "Formularios"
         
+        // cargar el objeto user desde el json
+        if let userLoaded = self.userPersistence.loadUserFromJSON() {
+            self.user = userLoaded
+            print("User cargado = \(self.user?.stateIPAQ) º \(self.user?.stateMMSE)")
+        } else {
+            // de no haber datos guardados, se inicializa un usuario por defecto
+            self.user = User(stateIPAQ: false, stateMMSE: false)
+            print("User inicializado = \(self.user?.stateIPAQ) º \(self.user?.stateMMSE)")
+        }
+         self.buttonsForms()
     }
+    
+    func buttonsForms() {
+        // habilitar o deshabilitar botones
+        if (self.user?.stateIPAQ == true) {
+            // si ya lo ha hecho
+            self.ipaqButton.isEnabled = false
+        } else {
+            self.ipaqButton.isEnabled = true
+        }
+        if (self.user?.stateMMSE == true) {
+            self.mmseButton.isEnabled = false
+        } else {
+            self.mmseButton.isEnabled = true
+        }
+    }
+    
     @IBAction func mmseButtonTapped(_ sender: UIButton) {
         let formTask = FormTask.shared.createMMSETask()
         let formTaskViewController = ORKTaskViewController(task: formTask, taskRun: nil)
@@ -37,6 +66,14 @@ class FormsViewController: UIViewController {
     }
     
     @IBAction func backButtonTapped(_ sender: UIButton) {
+        // guardar el user en el json
+        if let currentUser = user {
+            // guardar el usuario en el json en un hilo secundario de fondo
+            DispatchQueue.global(qos: .background).async {
+                self.userPersistence.saveUserInJson(user: currentUser)
+            }
+        }
+        
         // seguir con el unwindSegue
         performSegue(withIdentifier: "unwindToTaskView", sender: self)
     }
@@ -59,7 +96,7 @@ extension FormsViewController: ORKTaskViewControllerDelegate {
         case .completed:
             let result = taskViewController.result
             processResults(result: result)
-            
+            self.buttonsForms()
         case .discarded, .failed, .earlyTermination, .saved:
             print("No se completo con exito")
             
@@ -103,6 +140,7 @@ extension FormsViewController: ORKTaskViewControllerDelegate {
                     }
                 }
             }
+            self.user?.stateMMSE = true
             
         } else if result.identifier == "IPAQ" {
             typeForm = "IPAQ"
@@ -133,11 +171,12 @@ extension FormsViewController: ORKTaskViewControllerDelegate {
                     }
                 }
             }
+            self.user?.stateIPAQ = true
         }
-        updateFormFireStore(type: typeForm, questions: questionsList, answers: answersList)
+        updateFormToFirestore(type: typeForm, questions: questionsList, answers: answersList)
     }
     
-    func updateFormFireStore(type: String, questions: [String], answers: [String]) {
+    func updateFormToFirestore(type: String, questions: [String], answers: [String]) {
         
         var data: [String: String] = [:]
         
