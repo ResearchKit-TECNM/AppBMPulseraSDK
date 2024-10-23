@@ -16,29 +16,119 @@ class FormTask {
         
         var steps = [ORKStep]()
         
+        let textLetterAnswerFormat = ORKTextAnswerFormat(maximumLength: 200)
+        textLetterAnswerFormat.multipleLines = true
+        let textAnswerFormat = ORKTextAnswerFormat(maximumLength: 40)
+        textAnswerFormat.multipleLines = false
+        let numericAnswerFormat = ORKNumericAnswerFormat.integerAnswerFormat(withUnit: nil)
+        
         // Instrucciones
         let instructionStep = ORKInstructionStep(identifier: "instruction")
         instructionStep.title = "Mini examen del estado mental (MMSE)"
         instructionStep.text = "El presente formulario es de una prueba que evalua las funciones congnitivas. Por favor tomese su tiempo y complete este formulario en un lugar libre de distracciones."
         steps.append(instructionStep)
         
-        // Orientación temporal
-        let orientationTimeStep = ORKQuestionStep(identifier: "orientationTime", title: "Orientación temporal", question: "¿En qué año estamos?", answer: ORKTextAnswerFormat(maximumLength: 4))
-        steps.append(orientationTimeStep)
+       // Orientación del tiempo y del espacio
+        let orientationInstructionsStep = ORKInstructionStep(identifier: "orientationInstructions")
+        orientationInstructionsStep.title = "Orientación en el tiempo y el espacio"
+        orientationInstructionsStep.text = "Las siguientes preguntas son de evaluación de la orientación del tiempo y del espacio."
+        steps.append(orientationInstructionsStep)
         
-        // Orientación espacial
-        let orientationPlaceStep = ORKQuestionStep(identifier: "orientationPlace", title: "Orientación espacial", question: "¿En que país estamos?", answer: ORKTextAnswerFormat(maximumLength: 30))
-        steps.append(orientationPlaceStep)
         
-        // Fijación
-        // Atención y calculo
-        // Memoria
-        // Nominación
-        // Repetición
-        // Comprensión
-        // Lectura
-        // Escritura
-        // Dibujo
+        let timeOrientationForm = ORKFormStep(identifier: "timeOrientationForm", title: "Orientación del tiempo", text: "De información de la fecha actual")
+        
+        // Pregunta 1
+        let timeQuestionYear = ORKFormItem(identifier: "timeQuestionYear", text: "¿En qué año estamos?", answerFormat: textAnswerFormat)
+        // Pregunta 2
+        let timeQuestionMonth = ORKFormItem(identifier: "timeQuestionMonth", text: "¿En qué mes?", answerFormat: textAnswerFormat)
+        // Pregunta 3
+        let timeQuestionDay = ORKFormItem(identifier: "timeQuestionDay", text: "¿Cuál es el número del dia de hoy?", answerFormat: textAnswerFormat)
+        // Pregunta 4
+        let timeQuestionWeekDay = ORKFormItem(identifier: "timeQuestionWeekDay", text: "¿Qué dia de la semana es?", answerFormat: textAnswerFormat)
+        
+        timeOrientationForm.formItems = [timeQuestionYear, timeQuestionMonth,timeQuestionDay, timeQuestionWeekDay]
+        steps.append(timeOrientationForm)
+        
+        
+        let spaceOrientationForm = ORKFormStep(identifier: "spaceOrientationForm", title: "Orientación del espacio", text: "De información del lugar donde se encuentra ahora.")
+        
+        // pregunta 5
+        let spaceQuestionCountry = ORKFormItem(identifier: "spaceQuestionCountry", text: "¿En qué país se encuentra?", answerFormat: textAnswerFormat)
+        // pregunta 6
+        let spaceQuestionArea = ORKFormItem(identifier: "spaceQuestionArea", text: "¿En qué estado?", answerFormat: textAnswerFormat)
+        // pregunta 7
+        let spaceQuestionLocality = ORKFormItem(identifier: "spaceQuestionLocality", text: "¿En que ciudad o localidad?", answerFormat: textAnswerFormat)
+        
+        spaceOrientationForm.formItems = [spaceQuestionCountry, spaceQuestionArea, spaceQuestionLocality]
+        steps.append(spaceOrientationForm)
+        
+        // fijación?
+        
+        // concentración y cálculo
+        let concentrationInstructionsStep = ORKInstructionStep(identifier: "concentrationInstructions")
+        concentrationInstructionsStep.title = "Concentración y cálculo"
+        concentrationInstructionsStep.text = "Ahora se ha de evalular su capacidad de concentración al realizar unas operaciones matemáticas"
+        steps.append(concentrationInstructionsStep)
+        
+        let concentrationForm = ORKFormStep(identifier: "concentrationForm", title: "Concentración y cálculo", text: "Comenzemos desde el número 100, usted tiene que ir dando el resultado de dicha operación.")
+        
+        let concentrationQuestionOne = ORKFormItem(identifier: "concentrationQuestionOne", text: "100 menos 7", answerFormat: numericAnswerFormat)
+        
+        let concentrationQuestionTwo = ORKFormItem(identifier: "concentrationQuestionTwo", text: "Menos 7", answerFormat: numericAnswerFormat)
+        
+        let concentrationQuestionThree = ORKFormItem(identifier: "concentrationQuestionThree", text: "Menos 7", answerFormat: numericAnswerFormat)
+        
+        let concentrationQuestionFour = ORKFormItem(identifier: "concentrationQuestionFour", text: "Menos 7", answerFormat: numericAnswerFormat)
+        
+        let concentrationQuestionFive = ORKFormItem(identifier: "concentrationQuestionFive", text: "Menos 7", answerFormat: numericAnswerFormat)
+        
+        concentrationForm.formItems = [concentrationQuestionOne, concentrationQuestionTwo, concentrationQuestionThree, concentrationQuestionFour, concentrationQuestionFive]
+        steps.append(concentrationForm)
+        
+        // lenguaje y construcción
+        let languajeInstructionsStep = ORKInstructionStep(identifier: "languajeInstructions")
+        languajeInstructionsStep.title = "Lenguaje y construcción"
+        languajeInstructionsStep.text = "Ahora se va a evaluar su capacidad de lenguaje, construcción y reconocimiento de objetos."
+        steps.append(languajeInstructionsStep)
+        
+        let watchImageInstructionStep = ORKInstructionStep(identifier: "watchImageInstructionStep")
+        watchImageInstructionStep.title = "Lenguaje y construcción"
+        watchImageInstructionStep.text = "Observa la imagen"
+        watchImageInstructionStep.image = UIImage(named: "Watch")
+        watchImageInstructionStep.imageContentMode = .scaleAspectFit
+        steps.append(watchImageInstructionStep)
+        
+        let watchImageQuestion = ORKQuestionStep(identifier: "watchImageQuestion", title: "Lenguaje y construcción", question: "Cuál es el nombre del objeto de la imagen?", answer: textAnswerFormat)
+        steps.append(watchImageQuestion)
+        
+        let pencilImageInstructionStep = ORKInstructionStep(identifier: "pencilImageInstructionStep")
+        pencilImageInstructionStep.title = "Lenguaje y construcción"
+        pencilImageInstructionStep.text = "Observa la imagen"
+        pencilImageInstructionStep.image = UIImage(named: "Pencil")
+        pencilImageInstructionStep.imageContentMode = .scaleAspectFit
+        steps.append(pencilImageInstructionStep)
+        
+        let pencilImageQuestion = ORKQuestionStep(identifier: "pencilImageQuestion", title: "Lenguaje y construcción", question: "Cuál es el nombre del objeto de la imagen?", answer: textAnswerFormat)
+        steps.append(pencilImageQuestion)
+        
+        let letterQuestion = ORKQuestionStep(identifier: "letterQuestion", title: "Lenguaje y construcción", question: "Escriba una frase como si estuviera contando algo en una carta.", answer: textLetterAnswerFormat)
+        steps.append(letterQuestion)
+        
+        // dibujo
+        //let drawInstructionsStep = ORKInstructionStep(identifier: "drawInstrctionsStep")
+        //drawInstructionsStep.title = "Lenguaje y construcción"
+        //drawInstructionsStep.text = "A continuación, se te mostrará una figura. Por favor, cópiala en el área de dibujo a continuación."
+        //drawInstructionsStep.image = UIImage(named: "Geometric Draw")
+        //drawInstructionsStep.imageContentMode = .scaleAspectFit
+        //steps.append(drawInstructionsStep)
+        
+        //let drawingStep = ORKFormStep(identifier: "drawingStep", title: "Lenguaje y construcción", text: "Dibuja la figura aquí:")
+        //drawingStep.formItems = [ORKFormItem(identifier: "drawingItem", text: nil, answerFormat: ORKAnswerFormat.imageAnswerFormat())]
+        //steps.append(drawingStep)
+
+        // memoria
+        let memoryQuestion = ORKQuestionStep(identifier: "memoryQuestion", title: "Memoria", question: "Recuerda el ultimo resultado que le dio en la sección de Concentración y cálculo? Escribalo.", answer: textAnswerFormat)
+        steps.append(memoryQuestion)
         
         // Fin de la prueba
         let completionStep = ORKCompletionStep(identifier: "completion")
@@ -69,6 +159,7 @@ class FormTask {
         formInstructionsStep.title = "Cuestionario Internacional de Actividad Física - IPAQ"
         formInstructionsStep.text = "El presente formulario es un cuestionario que evalua su nivel de actividad física en base a la version corta del cuestionario internacional IPAQ. Por favor llenelo con total honestidad. La información ingresada es completamente privada."
         formInstructionsStep.image = UIImage(systemName: "figure.walk")
+        formInstructionsStep.imageContentMode = .scaleAspectFit
         steps.append(formInstructionsStep)
         
         // instrucciones de las actividades vigorosas
