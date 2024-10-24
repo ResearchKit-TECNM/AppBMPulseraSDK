@@ -127,7 +127,7 @@ class FormTask {
         //steps.append(drawingStep)
 
         // memoria
-        let memoryQuestion = ORKQuestionStep(identifier: "memoryQuestion", title: "Memoria", question: "Recuerda el ultimo resultado que le dio en la sección de Concentración y cálculo? Escribalo.", answer: textAnswerFormat)
+        let memoryQuestion = ORKQuestionStep(identifier: "memoryQuestion", title: "Memoria", question: "Recuerda el ultimo resultado que le di o en la sección de Concentración y cálculo? Escribalo.", answer: textAnswerFormat)
         steps.append(memoryQuestion)
         
         // Fin de la prueba

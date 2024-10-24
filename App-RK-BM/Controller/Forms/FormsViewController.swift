@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Foundation
 import ResearchKitActiveTask
 import FirebaseFirestore
 import FirebaseAuth
@@ -106,73 +107,64 @@ extension FormsViewController: ORKTaskViewControllerDelegate {
     }
     
     func processResults(result: ORKTaskResult) {
-        
         var typeForm = ""
         var questionsList: [String] = []
         var answersList: [String] = []
         
         if result.identifier == "MMSE" {
             typeForm = "MMSE"
-            // Desempaquetar result.results con guard let
-            guard let stepResults = result.results else {
-                print("No se encontraron resultados.")
-                return
-            }
-            
-            // Iterar sobre los resultados desempaquetados
-            for stepResult in stepResults {
-                // Verificar si stepResult es de tipo ORKStepResult
-                if let stepResult = stepResult as? ORKStepResult {
-                    // Iterar sobre los resultados individuales dentro del ORKStepResult
-                    for result in stepResult.results ?? [] {
-                        if let questionResult = result as? ORKQuestionResult {
-                            // Desempaquetar la respuesta
-                            if let answer = questionResult.answer {
-                                print("Pregunta: \(questionResult.identifier), Respuesta: \(answer)")
-                                questionsList.append(questionResult.identifier)
-                                answersList.append(answer as! String)
-                            } else {
-                                print("Pregunta: \(questionResult.identifier), no se encontró respuesta.")
-                            }
-                        } else {
-                            print("El resultado no es de tipo ORKQuestionResult.")
-                        }
-                    }
-                }
-            }
             self.user?.stateMMSE = true
-            
         } else if result.identifier == "IPAQ" {
             typeForm = "IPAQ"
-            // Desempaquetar result.results con guard let
-            guard let stepResults = result.results else {
-                print("No se encontraron resultados.")
-                return
-            }
-            
-            // Iterar sobre los resultados desempaquetados
-            for stepResult in stepResults {
-                // Verificar si stepResult es de tipo ORKStepResult
-                if let stepResult = stepResult as? ORKStepResult {
-                    // Iterar sobre los resultados individuales dentro del ORKStepResult
-                    for result in stepResult.results ?? [] {
-                        if let questionResult = result as? ORKQuestionResult {
-                            // Desempaquetar la respuesta
-                            if let answer = questionResult.answer {
-                                print("Pregunta: \(questionResult.identifier), Respuesta: \(answer)")
-                                questionsList.append(questionResult.identifier)
-                                answersList.append(answer.description)
-                            } else {
-                                print("Pregunta: \(questionResult.identifier), no se encontró respuesta.")
-                            }
-                        } else {
-                            print("El resultado no es de tipo ORKQuestionResult.")
-                        }
-                    }
-                }
-            }
             self.user?.stateIPAQ = true
         }
+        
+        // Desempaquetar result.results con guard let
+        guard let stepResults = result.results else {
+            print("No se encontraron resultados.")
+            return
+        }
+        
+        // Iterar sobre los resultados desempaquetados
+        for stepResult in stepResults {
+            // Verificar si stepResult es de tipo ORKStepResult
+            guard let stepResult = stepResult as? ORKStepResult else {
+                print("El stepResult no es de tipo ORKStepResult.")
+                continue
+            }
+            
+            // Iterar sobre los resultados individuales dentro del ORKStepResult
+            for result in stepResult.results ?? [] {
+                // Verificar si result es de tipo ORKQuestionResult
+                guard let questionResult = result as? ORKQuestionResult else {
+                    print("El resultado no es de tipo ORKQuestionResult.")
+                    continue
+                }
+                
+                // Desempaquetar la respuesta
+                guard let answer = questionResult.answer else {
+                    print("Pregunta: \(questionResult.identifier), no se encontró respuesta.")
+                    continue
+                }
+                
+                // Imprimir pregunta y respuesta
+                print("Pregunta: \(questionResult.identifier), Respuesta: \(answer)")
+                
+                // agregar pregunta
+                questionsList.append(questionResult.identifier)
+                // agregar respuesta
+                if let stringAnswer = answer as? String {
+                    answersList.append(stringAnswer)
+                } else if let numericAnswer = answer as? NSNumber {
+                    answersList.append(numericAnswer.stringValue)
+                } else if let arrayAnswer = answer as? [String] {
+                    answersList.append(arrayAnswer.joined(separator: ", "))
+                } else {
+                    answersList.append("Tipo de respuesta desconocido")
+                }
+            }
+        }
+        
         updateFormToFirestore(type: typeForm, questions: questionsList, answers: answersList)
     }
     
@@ -185,6 +177,16 @@ extension FormsViewController: ORKTaskViewControllerDelegate {
                     data[question] = answers[index]
                 }
             }
+            
+            // añadir respueas de MMSE
+            if (type == "MMSE") {
+                let currentDate = self.getCurrentDate()
+                data["currentYear"] = currentDate.year
+                data["currentMonth"] = currentDate.month
+                data["currentDay"] = currentDate.dayNumber
+                data["currentDayWeek"] = currentDate.dayName
+            }
+            
             print(data)
             
             guard let user = Auth.auth().currentUser else {
@@ -204,5 +206,23 @@ extension FormsViewController: ORKTaskViewControllerDelegate {
                 }
             }
         }
+    }
+    
+    func getCurrentDate() -> (year: String, month: String, dayNumber: String, dayName: String) {
+        let date = Date()
+        let calendar = Calendar.current
+        
+        let year1 = calendar.component(.year, from: date).description.capitalized
+        let dayNumber1 = calendar.component(.day, from: date).description.capitalized
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "es_ES")
+        
+        dateFormatter.dateFormat = "MMMM"
+        let monthName1 = dateFormatter.string(from: date).capitalized
+        dateFormatter.dateFormat = "EEEE"
+        let dayName1 = dateFormatter.string(from: date).capitalized
+        
+        return (year: year1, month: monthName1, dayNumber: dayNumber1, dayName: dayName1)
     }
 }
