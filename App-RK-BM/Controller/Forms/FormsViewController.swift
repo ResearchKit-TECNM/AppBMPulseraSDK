@@ -10,11 +10,19 @@ import Foundation
 import ResearchKitActiveTask
 import FirebaseFirestore
 import FirebaseAuth
+import CoreLocation
 
-class FormsViewController: UIViewController {
+class FormsViewController: UIViewController, CLLocationManagerDelegate {
     
     var user: User?
     var userPersistence = UserPersistence() // instancia del servicio de persistencia
+    
+    var userCountry: String?
+    var userState: String?
+    var userLocality:String?
+    
+    let locationManager = CLLocationManager()
+    let geocoder = CLGeocoder()
 
     @IBOutlet weak var ipaqButton: UIButton!
     @IBOutlet weak var mmseButton: UIButton!
@@ -24,6 +32,10 @@ class FormsViewController: UIViewController {
 
         // Do any additional setup after loading the view.
         title = "Formularios"
+        
+        // solicitar permisos para usar la ubicación
+        locationManager.delegate = self
+        locationManager.requestWhenInUseAuthorization()
         
         // cargar el objeto user desde el json
         if let userLoaded = self.userPersistence.loadUserFromJSON() {
@@ -79,6 +91,70 @@ class FormsViewController: UIViewController {
         performSegue(withIdentifier: "unwindToTaskView", sender: self)
     }
     
+    // ubicación
+    // Método llamado cuando el estado de autorización cambia
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+        switch manager.authorizationStatus {
+        case .authorizedWhenInUse, .authorizedAlways:
+            // Comenzar a obtener la ubicación solo si se ha otorgado el permiso
+            locationManager.startUpdatingLocation()
+        case .denied, .restricted:
+            print("Permiso de ubicación denegado o restringido")
+        default:
+            break
+        }
+    }
+        
+    // Método para manejar la ubicación obtenida
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let location = locations.last else { return }
+            
+        // Realizar la geocodificación en una cola de fondo
+        DispatchQueue.global(qos: .userInitiated).async {
+            self.fetchLocationDetails(location: location) { country, state, locality in
+                DispatchQueue.main.async {
+                    if let country = country, let state = state, let locality = locality {
+                        print("País: \(country), Estado: \(state), Localidad: \(locality)")
+                        // Aquí puedes actualizar la UI o pasar los datos a otra parte
+                        self.userCountry = country
+                        self.userState = state
+                        self.userLocality = locality
+                    } else {
+                        print("No se pudieron obtener los detalles de ubicación")
+                    }
+                }
+            }
+        }
+            
+        // Detener las actualizaciones para ahorrar batería
+        locationManager.stopUpdatingLocation()
+    }
+        
+    // Función para obtener detalles de ubicación usando CLGeocoder
+    func fetchLocationDetails(location: CLLocation, completion: @escaping (String?, String?, String?) -> Void) {
+        geocoder.reverseGeocodeLocation(location) { placemarks, error in
+            if let error = error {
+                print("Error al obtener los detalles de la ubicación: \(error.localizedDescription)")
+                completion(nil, nil, nil)
+                return
+            }
+                
+            if let placemark = placemarks?.first {
+                let country = placemark.country
+                let state = placemark.administrativeArea
+                let locality = placemark.locality
+                completion(country, state, locality)
+            } else {
+                completion(nil, nil, nil)
+            }
+        }
+    }
+    
+        
+    // Manejo de errores en caso de falla
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print("Error al obtener la ubicación: \(error.localizedDescription)")
+    }
 }
 
 extension FormsViewController: ORKTaskViewControllerDelegate {
@@ -181,10 +257,15 @@ extension FormsViewController: ORKTaskViewControllerDelegate {
             // añadir respueas de MMSE
             if (type == "MMSE") {
                 let currentDate = self.getCurrentDate()
+                // fecha
                 data["currentYear"] = currentDate.year
                 data["currentMonth"] = currentDate.month
                 data["currentDay"] = currentDate.dayNumber
                 data["currentDayWeek"] = currentDate.dayName
+                // localización
+                data["currentCountry"] = self.userCountry ?? "unknown"
+                data["currentState"] = self.userState ?? "unknown"
+                data["currentLocality"] = self.userLocality ?? "unknown"
             }
             
             print(data)
