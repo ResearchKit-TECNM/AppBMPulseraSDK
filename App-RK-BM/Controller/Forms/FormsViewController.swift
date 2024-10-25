@@ -46,7 +46,7 @@ class FormsViewController: UIViewController, CLLocationManagerDelegate {
             self.user = User(stateIPAQ: false, stateMMSE: false)
             print("User inicializado = \(self.user?.stateIPAQ) º \(self.user?.stateMMSE)")
         }
-        // self.buttonsFormsManager()
+        self.buttonsFormsManager()
     }
     
     func buttonsFormsManager() {
