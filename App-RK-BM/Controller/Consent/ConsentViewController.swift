@@ -9,6 +9,9 @@ import UIKit
 import ResearchKitUI
 import GoogleSignIn
 import FirebaseCore
+import FirebaseAuth
+import FirebaseStorage
+import FirebaseFirestore
 
 class ConsentViewController: UIViewController {
 
@@ -29,11 +32,31 @@ class ConsentViewController: UIViewController {
     }
     
     @IBAction func googleButtonTapped(_ sender: UIButton) {
-        guard let clientID = FirebaseApp.app()?.options.clientID else { return }
-        let config = GIDConfiguration(clientID: clientID)
-            
-        GIDSignIn.sharedInstance.configuration = config
-        GIDSignIn.sharedInstance.signIn(withPresenting: self)
+        // codigo de inicio de sesion con google
+        GIDSignIn.sharedInstance.signIn(withPresenting: self) { result, error in
+            if let error = error {
+                print("Error al iniciar sesión con Google: \(error.localizedDescription)")
+                return
+            }
+
+            // El inicio de sesión fue exitoso
+            guard let result = result else { return }
+            let user = result.user
+            let idToken = user.idToken?.tokenString ?? ""
+            let accessToken = user.accessToken.tokenString
+               
+            // Autenticación con Firebase
+            let credential = GoogleAuthProvider.credential(withIDToken: idToken, accessToken: accessToken)
+               
+            Auth.auth().signIn(with: credential) { authResult, error in
+                if let error = error {
+                    print("Error al autenticar con Firebase: \(error.localizedDescription)")
+                    return
+                }
+                // Usuario autenticado con éxito
+                print("Usuario autenticado en Firebase: \(authResult?.user.displayName ?? "")")
+            }
+        }
             
         // habilitar boton de inicio de sesion
         self.status = true
@@ -76,9 +99,16 @@ extension ConsentViewController: ORKTaskViewControllerDelegate{
             let consentDocument = ConsentDocument.copy() as! ORKConsentDocument
             signatureResult.apply(to: consentDocument)
             consentDocument.makePDF{ (data, error) -> Void in
+                guard let pdfData = data else {
+                    print("No se generó el pdf corectamente")
+                    return
+                }
+                print("Tamaño del PDF: \(pdfData.count) bytes")  // Solo para confirmar que el archivo se ha generado
+                
                 var docURL = (FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)).last
                 docURL = docURL?.appendingPathComponent("consent.pdf")
                 try? data?.write(to: docURL!, options: .atomicWrite)
+                self.uploadPDFCosent(fileURL: docURL!)
             }
             // segue
             performSegue(withIdentifier: "unwindToTasks", sender: nil)
@@ -100,4 +130,51 @@ extension ConsentViewController: ORKTaskViewControllerDelegate{
         return nil
     }
     
+    func uploadPDFCosent(fileURL: URL) {
+        guard let userID = Auth.auth().currentUser?.uid else {
+            print("Usuario no autenticado para subir el documento!")
+            return
+        }
+        
+        let storageRef = Storage.storage().reference()
+        // ruta en FireStorage
+        let pdfRef = storageRef.child("userDocuments/\(userID)/consent.pdf")
+        
+        // subir el archivo
+        pdfRef.putFile(from: fileURL, metadata: nil) {metadata, error in
+            if let error = error {
+                print("Error al subir el PDF: \(error.localizedDescription)")
+                return
+            }
+            
+            // obtener la URL de descarga
+            pdfRef.downloadURL {url, error in
+                if let error = error {
+                    print("Error al obtener la URL de descarga: \(error.localizedDescription)")
+                    return
+                }
+                
+                if let downloadURL = url {
+                    print("Archivo subido exitosamente. URL: \(downloadURL.absoluteString)")
+                    // Aquí puedes guardar la URL en Firestore o Realtime Database para asociarla con el usuario
+                }
+            }
+        }
+    }
+    
+    func saveConsentDocumentURLToFirestore(_ downloadURL: URL) {
+        guard let userID = Auth.auth().currentUser?.uid else {
+            print("El usuario no está autenticado")
+            return
+        }
+        
+        let db = Firestore.firestore()
+        db.collection("users").document(userID).setData(["cosentDocumentURL": downloadURL.absoluteString], merge: true) {error in
+            if let error = error {
+                print("Error al guardar la URL del documento: \(error.localizedDescription)")
+            } else {
+                print("URL del documento guardada")
+            }
+        }
+    }
 }

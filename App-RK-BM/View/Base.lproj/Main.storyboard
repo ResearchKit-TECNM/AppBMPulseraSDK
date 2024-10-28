@@ -93,14 +93,64 @@
             <objects>
                 <viewController title="Forms View Controller" id="KX0-qu-BAE" customClass="FormsViewController" customModule="App_RK_BM" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Fp4-dF-zzz">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LYv-9y-gSa">
+                                <rect key="frame" x="0.0" y="50" width="108" height="34.333333333333343"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" image="chevron.backward" catalog="system" title="Regresar"/>
+                                <connections>
+                                    <action selector="backButtonTapped:" destination="KX0-qu-BAE" eventType="touchUpInside" id="Zeu-jF-Ytk"/>
+                                    <segue destination="6a0-q8-4dY" kind="unwind" identifier="unwindToTaskView" unwindAction="unwindToTaskView:" id="MHX-AW-iPI"/>
+                                </connections>
+                            </button>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="ZIx-bi-iDt">
+                                <rect key="frame" x="60" y="184.33333333333334" width="273" height="119.00000000000003"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Formularios" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jKJ-km-kxt">
+                                        <rect key="frame" x="0.0" y="0.0" width="273" height="34.333333333333336"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yYS-JV-Sup">
+                                        <rect key="frame" x="0.0" y="42.333333333333314" width="273" height="34.333333333333343"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" image="brain" catalog="system" title="MMSE"/>
+                                        <connections>
+                                            <action selector="mmseButtonTapped:" destination="KX0-qu-BAE" eventType="touchUpInside" id="rj4-HB-qfl"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QXy-ge-uVp">
+                                        <rect key="frame" x="0.0" y="84.666666666666657" width="273" height="34.333333333333343"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" image="accessibility" catalog="system" title="IPAQ"/>
+                                        <connections>
+                                            <action selector="ipaqButtonTapped:" destination="KX0-qu-BAE" eventType="touchUpInside" id="kqN-n2-VUT"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="tYd-q1-D8n"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="LYv-9y-gSa" firstAttribute="leading" secondItem="tYd-q1-D8n" secondAttribute="leading" id="Jd6-f3-rtG"/>
+                            <constraint firstItem="LYv-9y-gSa" firstAttribute="top" secondItem="tYd-q1-D8n" secondAttribute="top" constant="50" id="OTp-fc-rPg"/>
+                            <constraint firstItem="ZIx-bi-iDt" firstAttribute="top" secondItem="LYv-9y-gSa" secondAttribute="bottom" constant="100" id="bZZ-6W-deW"/>
+                            <constraint firstItem="tYd-q1-D8n" firstAttribute="trailing" secondItem="ZIx-bi-iDt" secondAttribute="trailing" constant="60" id="ekE-x9-AoX"/>
+                            <constraint firstItem="ZIx-bi-iDt" firstAttribute="leading" secondItem="tYd-q1-D8n" secondAttribute="leading" constant="60" id="w3l-ON-Q1j"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="5Ip-ZS-SOy"/>
+                    <connections>
+                        <outlet property="ipaqButton" destination="QXy-ge-uVp" id="7jx-g3-K13"/>
+                        <outlet property="mmseButton" destination="yYS-JV-Sup" id="yI2-ue-2LB"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GuF-2W-M9c" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="6a0-q8-4dY" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="2250" y="-61"/>
         </scene>
@@ -109,14 +159,31 @@
             <objects>
                 <viewController title="Activities View Controller" id="I2a-g2-dlI" customClass="ActivitiesViewController" customModule="App_RK_BM" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="aY0-Di-EMI">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yhH-EN-unQ">
+                                <rect key="frame" x="0.0" y="50" width="108" height="35"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" image="chevron.backward" catalog="system" title="Regresar"/>
+                                <connections>
+                                    <segue destination="FPa-yg-Rkz" kind="unwind" identifier="unwindToTaskView" unwindAction="unwindToTaskView:" id="eWR-EP-z9I"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="vup-ms-2SU"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="yhH-EN-unQ" firstAttribute="leading" secondItem="vup-ms-2SU" secondAttribute="leading" id="LYp-aV-fPS"/>
+                            <constraint firstItem="yhH-EN-unQ" firstAttribute="top" secondItem="vup-ms-2SU" secondAttribute="top" constant="50" id="sVd-Lc-V6r"/>
+                        </constraints>
                     </view>
-                    <navigationItem key="navigationItem" largeTitleDisplayMode="always" id="ql3-ak-mB9"/>
+                    <navigationItem key="navigationItem" title="Actividades" largeTitleDisplayMode="always" id="ql3-ak-mB9">
+                        <barButtonItem key="backBarButtonItem" title="Back" id="730-el-xad"/>
+                    </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="glU-IZ-qly" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="FPa-yg-Rkz" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="2251" y="658"/>
         </scene>
@@ -169,7 +236,7 @@
                                         <buttonConfiguration key="configuration" style="filled" title="Formularios"/>
                                         <connections>
                                             <action selector="formsButtonTapped:" destination="OLQ-sH-saM" eventType="touchUpInside" id="oBr-Z2-SwH"/>
-                                            <segue destination="KX0-qu-BAE" kind="show" identifier="toForms" id="bh5-Nx-VQ6"/>
+                                            <segue destination="KX0-qu-BAE" kind="presentation" identifier="toForms" modalPresentationStyle="fullScreen" id="bh5-Nx-VQ6"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qjb-CI-QvM">
@@ -178,7 +245,7 @@
                                         <buttonConfiguration key="configuration" style="filled" title="Actividades"/>
                                         <connections>
                                             <action selector="activitiesButtonTapped:" destination="OLQ-sH-saM" eventType="touchUpInside" id="Fmr-34-LSL"/>
-                                            <segue destination="I2a-g2-dlI" kind="show" identifier="toActivities" id="eJs-OR-igC"/>
+                                            <segue destination="I2a-g2-dlI" kind="presentation" identifier="toActivities" modalPresentationStyle="fullScreen" id="eJs-OR-igC"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -186,15 +253,31 @@
                                     <constraint firstAttribute="width" constant="200" id="zlo-b5-dxl"/>
                                 </constraints>
                             </stackView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="oUr-Ga-eJe">
+                                <rect key="frame" x="72" y="134" width="250" height="20.333333333333343"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L6F-U7-WH9">
+                                        <rect key="frame" x="0.0" y="0.0" width="250" height="20.333333333333332"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="250" id="0R4-hP-cUk"/>
+                                </constraints>
+                            </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="GaP-oB-Yjf"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="GaP-oB-Yjf" firstAttribute="trailing" secondItem="oUr-Ga-eJe" secondAttribute="trailing" constant="71" id="38M-Gp-ePR"/>
                             <constraint firstItem="GaP-oB-Yjf" firstAttribute="trailing" secondItem="LAm-DR-bGm" secondAttribute="trailing" constant="97" id="9Cu-Ce-zPb"/>
                             <constraint firstItem="0qv-ga-9nF" firstAttribute="top" secondItem="eEW-Od-AfA" secondAttribute="bottom" constant="20" id="ARH-aF-o60"/>
                             <constraint firstItem="GaP-oB-Yjf" firstAttribute="trailing" secondItem="0qv-ga-9nF" secondAttribute="trailing" constant="124" id="Bvd-eV-HWO"/>
                             <constraint firstItem="GaP-oB-Yjf" firstAttribute="bottom" secondItem="0qv-ga-9nF" secondAttribute="bottom" constant="50" id="I69-jy-l69"/>
                             <constraint firstItem="GaP-oB-Yjf" firstAttribute="trailing" secondItem="eEW-Od-AfA" secondAttribute="trailing" constant="35" id="aSd-6J-aMf"/>
+                            <constraint firstItem="oUr-Ga-eJe" firstAttribute="top" secondItem="GaP-oB-Yjf" secondAttribute="top" constant="75" id="lEg-Vv-jfx"/>
                             <constraint firstItem="eEW-Od-AfA" firstAttribute="top" secondItem="LAm-DR-bGm" secondAttribute="bottom" constant="155" id="ms4-Vl-ZWZ"/>
                         </constraints>
                     </view>
@@ -203,6 +286,7 @@
                         <outlet property="documentButton" destination="gzB-vT-nqb" id="ZaV-rh-tzd"/>
                         <outlet property="formsButton" destination="RkJ-kK-eM4" id="l4n-vD-YHP"/>
                         <outlet property="leaveButton" destination="0qv-ga-9nF" id="wiF-c1-m0s"/>
+                        <outlet property="userLabel" destination="L6F-U7-WH9" id="jxL-Oy-hv7"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7Lq-vc-IqC" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -214,6 +298,9 @@
         <segue reference="yTp-kn-hsu"/>
     </inferredMetricsTieBreakers>
     <resources>
+        <image name="accessibility" catalog="system" width="128" height="123"/>
+        <image name="brain" catalog="system" width="128" height="107"/>
+        <image name="chevron.backward" catalog="system" width="97" height="128"/>
         <image name="document.circle.fill" catalog="system" width="128" height="123"/>
         <image name="googleIcon" width="24" height="24"/>
         <image name="person.2.fill" catalog="system" width="128" height="86"/>
