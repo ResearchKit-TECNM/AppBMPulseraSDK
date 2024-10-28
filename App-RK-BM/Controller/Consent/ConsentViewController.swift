@@ -24,6 +24,39 @@ class ConsentViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        
+        // verificar si ya ha aceptado con firestore
+        self.checkUserHasAccepted { hasAccepted in
+            if hasAccepted {
+                DispatchQueue.main.async {
+                    self.performSegue(withIdentifier: "unwindToTasks", sender: nil)
+                }
+            }
+        }
+        
+    }
+    
+    func checkUserHasAccepted(completion: @escaping (Bool) -> Void) {
+        guard let currentUser = Auth.auth().currentUser else {
+            completion(false)
+            return
+        }
+        let db = Firestore.firestore()
+        let userRef = db.collection("users").document(currentUser.uid)
+        
+        userRef.getDocument { document, error in
+            if let error = error {
+                print("Error al recuperar el valor \(error.localizedDescription)")
+                completion(false)
+            } else if let document = document, document.exists {
+                let hasAccepted = document.get("hasAccepted") as? Bool ?? false
+                completion(hasAccepted)
+            } else {
+                print("El documento no existe")
+                self.showAlert(title: "Alerta", message: "Si ya aceptado el estudio, asegurese de estar conectado a internet al usar la aplicación")
+                completion(false)
+            }
+        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -86,7 +119,7 @@ class ConsentViewController: UIViewController {
             
             // Mostrar la alerta
             present(alertController, animated: true, completion: nil)
-        }
+    }
     
 }
 
@@ -109,6 +142,17 @@ extension ConsentViewController: ORKTaskViewControllerDelegate{
                 docURL = docURL?.appendingPathComponent("consent.pdf")
                 try? data?.write(to: docURL!, options: .atomicWrite)
                 self.uploadPDFCosent(fileURL: docURL!)
+            }
+            // poner valor de aceptado
+            if let currentUser = Auth.auth().currentUser {
+                let db = Firestore.firestore()
+                db.collection("users").document(currentUser.uid).setData(["hasAccepted": true], merge: true) { error in
+                    if let error = error {
+                        print("Error al guardar el valor \(error.localizedDescription)")
+                    } else {
+                        print("Valor hasAccepted guardado con exito!")
+                    }
+                }
             }
             // segue
             performSegue(withIdentifier: "unwindToTasks", sender: nil)
