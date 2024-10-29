@@ -45,12 +45,18 @@ class ActivitiesViewController: UIViewController, BluetoothManagerDelegate {
     func didUpdateConnectionStatus(isConnected: Bool) {
         let status = isConnected ? "Conectado": "Desconectado"
         print("Estado de conexión: \(status)")
-        self.stateLabel.text = "Estado: " + status
+        print("En activities view controller")
+        DispatchQueue.main.async {
+            self.stateLabel.text = "Estado: " + status
+        }
     }
     
     // BluetoothManagerDelegate - Datos recibidos
     func didReceiveData(_ data: String) {
         print("Datos recibidos: \(data)")
-        self.dataLabel.text = "Datos recibidos: " + data
+        print("En activities view controller")
+        DispatchQueue.main.async {
+            self.dataLabel.text = "Datos recibidos: " + data
+        }
     }
 }

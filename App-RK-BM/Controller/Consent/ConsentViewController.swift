@@ -201,6 +201,7 @@ extension ConsentViewController: ORKTaskViewControllerDelegate{
                 if let downloadURL = url {
                     print("Archivo subido exitosamente. URL: \(downloadURL.absoluteString)")
                     // Aquí puedes guardar la URL en Firestore o Realtime Database para asociarla con el usuario
+                    self.saveConsentDocumentURLToFirestore(downloadURL)
                 }
             }
         }

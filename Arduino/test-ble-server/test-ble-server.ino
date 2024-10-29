@@ -33,6 +33,10 @@ class MyServerCallbacks: public BLEServerCallbacks {
   void onDisconnect(BLEServer* pServer) {
     deviceConnected = false;
     Serial.println("Dispositivo desconectado!");
+
+    // reiniciar la publicidad BLE
+    pServer->getAdvertising()->start();
+    Serial.println("Reiniciando publicidad BLE...");
   }
 };
 
@@ -117,7 +121,7 @@ void loop() {
       Serial.println("Deteniendo el sensado de datos");
       // va la demas lógica
       digitalWrite(led, LOW);
-      String dataToSend = "Dato de prueba desde ESP32 con BLE";
+      String dataToSend = "Ritmo cardiaco = 90 pxm";
       pCharacteristic->setValue(dataToSend.c_str()); // configurar el valor de la caracteristica
       pCharacteristic->notify(); // enviar la información
       Serial.println("Notificación con datos enviada: " + dataToSend);

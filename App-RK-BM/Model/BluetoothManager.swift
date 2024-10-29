@@ -102,7 +102,7 @@ class BluetoothManager: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate
     // Leer datos recibidos
     func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
         guard let data = characteristic.value, let receivedString = String(data: data, encoding: .utf8) else { return }
-        print("Datos recibidos: \(receivedString)")
+        // print("Datos recibidos: \(receivedString)")
         delegate?.didReceiveData(receivedString)
     }
         
