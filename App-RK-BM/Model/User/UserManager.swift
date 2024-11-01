@@ -19,6 +19,11 @@ class UserManager {
         let db = Firestore.firestore()
         
         db.collection(self.collectionName).document(uid).getDocument { (document, error) in
+            if let error = error {
+                // Caso de error en la conexión o consulta
+                completion(.failure(error))
+                return
+            }
             if let document = document, document.exists, let data = document.data() {
                 // cargar datos a user
                 self.user.consentDocumentURL = data ["consentDocumentURL"] as? String ?? ""
@@ -27,8 +32,10 @@ class UserManager {
                 self.user.madeMMSE = data["madeMMSE"] as? Bool ?? false
                 // enviar user
                 completion(.success(self.user))
-            } else if let error = error {
-                completion(.failure(error))
+            } else {
+                // Caso en que el documento no existe
+                let notFoundError = NSError(domain: "", code: 404, userInfo: [NSLocalizedDescriptionKey: "Documento no encontrado"])
+                completion(.failure(notFoundError))
             }
         }
     }

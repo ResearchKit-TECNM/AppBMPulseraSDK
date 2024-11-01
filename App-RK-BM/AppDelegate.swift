@@ -15,6 +15,7 @@ import FirebaseAuth
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    let dispatchGroup = DispatchGroup()
 
     internal func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
@@ -33,15 +34,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         // cargar user
-        if let currentUser = Auth.auth().currentUser {
-            UserManager.shared.loadUser(currentUser.uid) { result in
-                switch result {
-                case .success(let user):
-                    print("AppDelegate: user cargado exitosamente: \(user)")
-                case.failure(let error):
-                    print("AppDelegate: \(error)")
+        dispatchGroup.enter()
+        Auth.auth().addStateDidChangeListener { auth, user in
+            if let currentUser = user {
+                UserManager.shared.loadUser(currentUser.uid) { result in
+                    switch result {
+                    case .success(let user):
+                        print("AppDelegate: Usuario cargado exitosamente: \(user)")
+                    case .failure(let error):
+                        print("AppDelegate: Error al cargar el usuario: \(error)")
+                    }
+                    // Salir del grupo una vez que se completa la carga del usuario
+                    self.dispatchGroup.leave()
                 }
+            } else {
+                print("No se encontró usuario autenticado.")
+                // Salir del grupo si no hay usuario autenticado
+                self.dispatchGroup.leave()
             }
+        }
+                
+        // Esperar hasta que se complete la carga del usuario
+        dispatchGroup.notify(queue: .main) {
+            print("AppDelegate: Firebase y usuario listos.")
         }
         
         return true
@@ -114,6 +129,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // configuracion inicial de autenticación
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
         return GIDSignIn.sharedInstance.handle(url)
+    }
+    
+    // Método llamado cuando la aplicación está a punto de ir al fondo
+    func applicationWillResignActive(_ application: UIApplication) {
+        if let currentUser = Auth.auth().currentUser {
+            UserManager.shared.saveUser(currentUser.uid)
+        }
     }
 
 }

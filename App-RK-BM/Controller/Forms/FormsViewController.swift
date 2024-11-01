@@ -78,6 +78,14 @@ class FormsViewController: UIViewController, CLLocationManagerDelegate {
             print("Permiso de ubicación denegado o restringido")
         }
     }
+    
+    // guardar user al cerrar la pantalla por precaución
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        print("La vista Forms está a punto de desaparecer")
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        UserManager.shared.saveUser(uid)
+    }
 
 }
 
