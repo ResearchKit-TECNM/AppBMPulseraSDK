@@ -9,6 +9,7 @@ import UIKit
 import ResearchKitActiveTask
 import FirebaseCore
 import GoogleSignIn
+import FirebaseAuth
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -28,6 +29,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
             if let user = user {
                 print("Usuario autenticado: \(user.profile?.name ?? "")")
+            }
+        }
+        
+        // cargar user
+        if let currentUser = Auth.auth().currentUser {
+            UserManager.shared.loadUser(currentUser.uid) { result in
+                switch result {
+                case .success(let user):
+                    print("AppDelegate: user cargado exitosamente: \(user)")
+                case.failure(let error):
+                    print("AppDelegate: \(error)")
+                }
             }
         }
         
@@ -85,6 +98,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if ORKPasscodeViewController.isPasscodeStoredInKeychain() {
             // Hide content so it doesn't appear in the app switcher.
             containerViewController?.contentHidden = true
+        }
+        
+        // guardar user
+        if let currentUser = Auth.auth().currentUser {
+            UserManager.shared.saveUser(currentUser.uid)
         }
     }
 

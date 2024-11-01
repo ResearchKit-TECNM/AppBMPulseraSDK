@@ -11,7 +11,6 @@ import GoogleSignIn
 import FirebaseCore
 import FirebaseAuth
 import FirebaseStorage
-import FirebaseFirestore
 
 class ConsentViewController: UIViewController {
 
@@ -24,37 +23,14 @@ class ConsentViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        UserManager.shared.user.hasAccepted = true
+        
+        print("\thasAccepted: \(UserManager.shared.user.hasAccepted)")
         
         // verificar si ya ha aceptado con firestore
-        self.checkUserHasAccepted { hasAccepted in
-            if hasAccepted {
-                DispatchQueue.main.async {
-                    self.performSegue(withIdentifier: "unwindToTasks", sender: nil)
-                }
-            }
-        }
-        
-    }
-    
-    func checkUserHasAccepted(completion: @escaping (Bool) -> Void) {
-        guard let currentUser = Auth.auth().currentUser else {
-            completion(false)
-            return
-        }
-        let db = Firestore.firestore()
-        let userRef = db.collection("users").document(currentUser.uid)
-        
-        userRef.getDocument { document, error in
-            if let error = error {
-                print("Error al recuperar el valor \(error.localizedDescription)")
-                completion(false)
-            } else if let document = document, document.exists {
-                let hasAccepted = document.get("hasAccepted") as? Bool ?? false
-                completion(hasAccepted)
-            } else {
-                print("El documento no existe")
-                self.showAlert(title: "Alerta", message: "Si ya aceptado el estudio, asegurese de estar conectado a internet al usar la aplicación")
-                completion(false)
+        if UserManager.shared.user.hasAccepted {
+            DispatchQueue.main.async {
+                self.performSegue(withIdentifier: "unwindToTasks", sender: nil)
             }
         }
     }
@@ -144,16 +120,7 @@ extension ConsentViewController: ORKTaskViewControllerDelegate{
                 self.uploadPDFCosent(fileURL: docURL!)
             }
             // poner valor de aceptado
-            if let currentUser = Auth.auth().currentUser {
-                let db = Firestore.firestore()
-                db.collection("users").document(currentUser.uid).setData(["hasAccepted": true], merge: true) { error in
-                    if let error = error {
-                        print("Error al guardar el valor \(error.localizedDescription)")
-                    } else {
-                        print("Valor hasAccepted guardado con exito!")
-                    }
-                }
-            }
+            UserManager.shared.user.hasAccepted = true
             // segue
             performSegue(withIdentifier: "unwindToTasks", sender: nil)
         case .discarded, .failed, .saved:
@@ -174,6 +141,7 @@ extension ConsentViewController: ORKTaskViewControllerDelegate{
         return nil
     }
     
+    // cambios a futuro
     func uploadPDFCosent(fileURL: URL) {
         guard let userID = Auth.auth().currentUser?.uid else {
             print("Usuario no autenticado para subir el documento!")
@@ -201,24 +169,8 @@ extension ConsentViewController: ORKTaskViewControllerDelegate{
                 if let downloadURL = url {
                     print("Archivo subido exitosamente. URL: \(downloadURL.absoluteString)")
                     // Aquí puedes guardar la URL en Firestore o Realtime Database para asociarla con el usuario
-                    self.saveConsentDocumentURLToFirestore(downloadURL)
+                    UserManager.shared.user.consentDocumentURL = downloadURL.absoluteString
                 }
-            }
-        }
-    }
-    
-    func saveConsentDocumentURLToFirestore(_ downloadURL: URL) {
-        guard let userID = Auth.auth().currentUser?.uid else {
-            print("El usuario no está autenticado")
-            return
-        }
-        
-        let db = Firestore.firestore()
-        db.collection("users").document(userID).setData(["cosentDocumentURL": downloadURL.absoluteString], merge: true) {error in
-            if let error = error {
-                print("Error al guardar la URL del documento: \(error.localizedDescription)")
-            } else {
-                print("URL del documento guardada")
             }
         }
     }

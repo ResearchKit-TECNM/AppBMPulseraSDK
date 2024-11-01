@@ -8,14 +8,11 @@
 import UIKit
 import Foundation
 import ResearchKitActiveTask
-import FirebaseFirestore
 import FirebaseAuth
 import CoreLocation
+import FirebaseFirestore
 
 class FormsViewController: UIViewController, CLLocationManagerDelegate {
-    
-    var user: User?
-    var userPersistence = UserPersistence() // instancia del servicio de persistencia
     
     var userCountry: String?
     var userState: String?
@@ -37,27 +34,19 @@ class FormsViewController: UIViewController, CLLocationManagerDelegate {
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
         
-        // cargar el objeto user desde el json
-        if let userLoaded = self.userPersistence.loadUserFromJSON() {
-            self.user = userLoaded
-            print("User cargado = \(self.user?.stateIPAQ) º \(self.user?.stateMMSE)")
-        } else {
-            // de no haber datos guardados, se inicializa un usuario por defecto
-            self.user = User(stateIPAQ: false, stateMMSE: false)
-            print("User inicializado = \(self.user?.stateIPAQ) º \(self.user?.stateMMSE)")
-        }
+        UserManager.shared.user.madeIPAQ = true
+        
         self.buttonsFormsManager()
     }
     
     func buttonsFormsManager() {
         // habilitar o deshabilitar botones
-        if (self.user?.stateIPAQ == true) {
-            // si ya lo ha hecho
+        if UserManager.shared.user.madeIPAQ {
             self.ipaqButton.isEnabled = false
         } else {
             self.ipaqButton.isEnabled = true
         }
-        if (self.user?.stateMMSE == true) {
+        if UserManager.shared.user.madeMMSE {
             self.mmseButton.isEnabled = false
         } else {
             self.mmseButton.isEnabled = true
@@ -79,14 +68,6 @@ class FormsViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     @IBAction func backButtonTapped(_ sender: UIButton) {
-        // guardar el user en el json
-        if let currentUser = user {
-            // guardar el usuario en el json en un hilo secundario de fondo
-            DispatchQueue.global(qos: .background).async {
-                self.userPersistence.saveUserInJson(user: currentUser)
-            }
-        }
-        
         // seguir con el unwindSegue
         performSegue(withIdentifier: "unwindToTaskView", sender: self)
     }
@@ -189,10 +170,10 @@ extension FormsViewController: ORKTaskViewControllerDelegate {
         
         if result.identifier == "MMSE" {
             typeForm = "MMSE"
-            self.user?.stateMMSE = true
+            UserManager.shared.user.madeMMSE = true
         } else if result.identifier == "IPAQ" {
             typeForm = "IPAQ"
-            self.user?.stateIPAQ = true
+            UserManager.shared.user.madeIPAQ = true
         }
         
         // Desempaquetar result.results con guard let
@@ -244,6 +225,7 @@ extension FormsViewController: ORKTaskViewControllerDelegate {
         updateFormToFirestore(type: typeForm, questions: questionsList, answers: answersList)
     }
     
+    // cambios a futuro
     func updateFormToFirestore(type: String, questions: [String], answers: [String]) {
         DispatchQueue.global(qos: .background).async {
             var data: [String: String] = [:]

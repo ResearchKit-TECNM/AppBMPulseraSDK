@@ -21,6 +21,7 @@
 		8459AB982CBEE07B00819BC3 /* ResearchKitUI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8459AB8E2CBEE03200819BC3 /* ResearchKitUI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		8459ABC72CBEE50F00819BC3 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 8459ABC62CBEE50F00819BC3 /* GoogleSignIn */; };
 		8459ABC92CBEE50F00819BC3 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 8459ABC82CBEE50F00819BC3 /* GoogleSignInSwift */; };
+		84FBA6CD2CD434670046E968 /* FirebaseFirestoreCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = 84FBA6CC2CD434670046E968 /* FirebaseFirestoreCombine-Community */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -103,6 +104,7 @@
 				8459AB772CBEE00B00819BC3 /* FirebaseAuth in Frameworks */,
 				8459AB922CBEE07000819BC3 /* ResearchKit.framework in Frameworks */,
 				8459AB7F2CBEE00B00819BC3 /* FirebaseStorage in Frameworks */,
+				84FBA6CD2CD434670046E968 /* FirebaseFirestoreCombine-Community in Frameworks */,
 				8459AB952CBEE07500819BC3 /* ResearchKitActiveTask.framework in Frameworks */,
 				8459ABC92CBEE50F00819BC3 /* GoogleSignInSwift in Frameworks */,
 			);
@@ -175,6 +177,7 @@
 				8459AB7E2CBEE00B00819BC3 /* FirebaseStorage */,
 				8459ABC62CBEE50F00819BC3 /* GoogleSignIn */,
 				8459ABC82CBEE50F00819BC3 /* GoogleSignInSwift */,
+				84FBA6CC2CD434670046E968 /* FirebaseFirestoreCombine-Community */,
 			);
 			productName = "App-RK-BM";
 			productReference = 8459AB592CBEDF0E00819BC3 /* App-RK-BM.app */;
@@ -536,6 +539,10 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 8459ABC52CBEE50F00819BC3 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
 			productName = GoogleSignInSwift;
+		};
+		84FBA6CC2CD434670046E968 /* FirebaseFirestoreCombine-Community */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = "FirebaseFirestoreCombine-Community";
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

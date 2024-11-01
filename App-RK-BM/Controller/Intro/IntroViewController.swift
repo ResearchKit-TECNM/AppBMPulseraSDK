@@ -15,6 +15,7 @@ class IntroViewController: UIViewController {
 
         // Do any additional setup after loading the view.
         if ORKPasscodeViewController.isPasscodeStoredInKeychain() {
+            UserManager.shared.user.hasAccepted = true
             toTasks()
         } else {
             toConsent()

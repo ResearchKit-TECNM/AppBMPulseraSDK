@@ -4,7 +4,7 @@
 //
 //  Created by Luis Mora on 22/10/24.
 //
-
+/*
 import Foundation
 
 class UserPersistence {
@@ -51,3 +51,4 @@ class UserPersistence {
         return nil
     }
 }
+*/
