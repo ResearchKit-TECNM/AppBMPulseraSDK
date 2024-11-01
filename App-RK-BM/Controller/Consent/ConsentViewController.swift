@@ -117,7 +117,9 @@ extension ConsentViewController: ORKTaskViewControllerDelegate{
                 var docURL = (FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)).last
                 docURL = docURL?.appendingPathComponent("consent.pdf")
                 try? data?.write(to: docURL!, options: .atomicWrite)
-                self.uploadPDFCosent(fileURL: docURL!)
+                guard let currentUser = Auth.auth().currentUser else { return }
+                StorageManager.shared.uploadPDFConsent(fileURL: docURL!, uid: currentUser.uid)
+                // self.uploadPDFCosent(fileURL: docURL!)
             }
             // poner valor de aceptado
             UserManager.shared.user.hasAccepted = true
@@ -142,6 +144,7 @@ extension ConsentViewController: ORKTaskViewControllerDelegate{
     }
     
     // cambios a futuro
+    /*
     func uploadPDFCosent(fileURL: URL) {
         guard let userID = Auth.auth().currentUser?.uid else {
             print("Usuario no autenticado para subir el documento!")
@@ -174,4 +177,5 @@ extension ConsentViewController: ORKTaskViewControllerDelegate{
             }
         }
     }
+    */
 }
