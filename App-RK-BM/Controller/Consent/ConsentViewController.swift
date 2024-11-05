@@ -24,14 +24,24 @@ class ConsentViewController: UIViewController {
 
         // Do any additional setup after loading the view.
         
-        print("\thasAccepted: \(UserManager.shared.user.hasAccepted)")
+        // observar la notificación para saber cuando el usuario ha sido cargado
+        NotificationCenter.default.addObserver(self, selector: #selector(userLoaded), name: Notification.Name("UserLoaded"), object: nil)
         
+    }
+    
+    @objc func userLoaded() {
+        print("\thasAccepted: \(UserManager.shared.user.hasAccepted)")
         // verificar si ya ha aceptado con firestore
         if UserManager.shared.user.hasAccepted {
             DispatchQueue.main.async {
                 self.performSegue(withIdentifier: "unwindToTasks", sender: nil)
             }
         }
+    }
+    
+    deinit {
+        // eliminar el observador para evitar filtraciones de memoria
+        NotificationCenter.default.removeObserver(self)
     }
     
     override func didReceiveMemoryWarning() {

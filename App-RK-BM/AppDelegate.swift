@@ -47,6 +47,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     switch result {
                     case .success(let user):
                         print("AppDelegate: Usuario cargado exitosamente: \(user)")
+                        // notificar a la interfaz de la cara del user
+                        NotificationCenter.default.post(name: Notification.Name("UserLoaded"), object: nil)
                     case .failure(let error):
                         print("AppDelegate: Error al cargar el usuario: \(error)")
                     }
@@ -56,6 +58,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             } else {
                 print("No hay usuario autenticado a través de Google.")
                 // Manejar el caso donde no hay usuario
+                self.dispatchGroup.leave()
             }
         }
         
