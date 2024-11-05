@@ -9,15 +9,20 @@ import UIKit
 import ResearchKitActiveTask
 import FirebaseCore
 import GoogleSignIn
+import FirebaseAuth
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    let dispatchGroup = DispatchGroup()
+    var isUserLoaded: Bool = false
 
     internal func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
         lockApp()
+        
         FirebaseApp.configure()
         
         // configura Google Sign IN
@@ -31,7 +36,52 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
         
+        // cargar user
+        dispatchGroup.enter()
+        Auth.auth().addStateDidChangeListener { auth, user in
+            guard !self.isUserLoaded else { return } // salir si ya se cargo el user
+            self.isUserLoaded = true // cambiar la bandera si no se ha cargado el user
+            
+            if let currentUser = user {
+                UserManager.shared.loadUser(uid:  currentUser.uid) { result in
+                    switch result {
+                    case .success(let user):
+                        print("AppDelegate: Usuario cargado exitosamente: \(user)")
+                        // notificar a la interfaz de la cara del user
+                        NotificationCenter.default.post(name: Notification.Name("UserLoaded"), object: nil)
+                    case .failure(let error):
+                        print("AppDelegate: Error al cargar el usuario: \(error)")
+                    }
+                    // Salir del grupo una vez que se completa la carga del usuario
+                    self.dispatchGroup.leave()
+                }
+            } else {
+                print("No hay usuario autenticado a través de Google.")
+                // Manejar el caso donde no hay usuario
+                self.dispatchGroup.leave()
+            }
+        }
+        
         return true
+    }
+    
+    private func loadUser(uid: String) {
+        dispatchGroup.enter() // Entrar en el grupo
+
+        UserManager.shared.loadUser(uid: uid) { result in
+            switch result {
+            case .success(let user):
+                print("AppDelegate: Usuario cargado exitosamente: \(user)")
+            case .failure(let error):
+                print("AppDelegate: Error al cargar el usuario: \(error)")
+            }
+            self.dispatchGroup.leave() // Asegúrate de que esto se llama
+        }
+
+        // Esperar hasta que se complete la carga del usuario
+        dispatchGroup.notify(queue: .main) {
+            print("AppDelegate: Firebase y usuario listos.")
+        }
     }
 
     func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
@@ -96,6 +146,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // configuracion inicial de autenticación
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
         return GIDSignIn.sharedInstance.handle(url)
+    }
+    
+    // Método llamado cuando la aplicación está a punto de ir al fondo
+    func applicationWillResignActive(_ application: UIApplication) {
     }
 
 }

@@ -28,6 +28,7 @@ class TasksViewController: UIViewController {
             } else {
                 print("El usuario no tiene un nombre asociado.")
             }
+            UserManager.shared.user.uid = user.uid
         } else {
             print("No hay un usuario autenticado.")
         }

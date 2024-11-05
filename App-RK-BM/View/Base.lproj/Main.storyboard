@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23094" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23504" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23084"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23506"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -11,7 +12,7 @@
         <!--Initial View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController title="Initial View Controller" id="BYZ-38-t0r" customClass="IntroViewController" customModule="App_RK_BM" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="IntroViewController" title="Initial View Controller" id="BYZ-38-t0r" customClass="IntroViewController" customModule="App_RK_BM" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -32,11 +33,11 @@
             <objects>
                 <viewController title="Consent View Controller" id="vmF-GY-36f" customClass="ConsentViewController" customModule="App_RK_BM" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Gyu-5C-c1N">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tnc-29-hO3">
-                                <rect key="frame" x="121" y="610.66666666666663" width="151" height="34.333333333333371"/>
+                                <rect key="frame" x="121" y="586.66666666666663" width="151" height="34.333333333333371"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="tinted" title="Unirse al estudio"/>
                                 <connections>
@@ -44,7 +45,7 @@
                                 </connections>
                             </button>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="uNB-F3-JBW">
-                                <rect key="frame" x="121" y="255" width="150" height="84"/>
+                                <rect key="frame" x="121" y="314" width="150" height="84"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Autenticación" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="F0I-Pn-MZu">
                                         <rect key="frame" x="0.0" y="0.0" width="150" height="38"/>
@@ -163,24 +164,89 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yhH-EN-unQ">
-                                <rect key="frame" x="0.0" y="50" width="108" height="35"/>
+                                <rect key="frame" x="0.0" y="50" width="108" height="34.333333333333343"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" image="chevron.backward" catalog="system" title="Regresar"/>
                                 <connections>
                                     <segue destination="FPa-yg-Rkz" kind="unwind" identifier="unwindToTaskView" unwindAction="unwindToTaskView:" id="eWR-EP-z9I"/>
                                 </connections>
                             </button>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="s05-0e-HqC">
+                                <rect key="frame" x="71" y="180" width="250" height="246"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Estado: " textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UkK-fG-p10">
+                                        <rect key="frame" x="0.0" y="0.0" width="250" height="34.333333333333336"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kyQ-rW-Uy8">
+                                        <rect key="frame" x="0.0" y="42.333333333333343" width="250" height="34.333333333333343"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="filled" title="Conectar"/>
+                                        <connections>
+                                            <action selector="connectButtonTapped:" destination="I2a-g2-dlI" eventType="touchUpInside" id="tCN-Es-f8e"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vvw-Dd-DM2">
+                                        <rect key="frame" x="0.0" y="84.666666666666686" width="250" height="34.333333333333343"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="filled" title="Desconectar">
+                                            <color key="baseBackgroundColor" red="0.91976243260000001" green="0.085834366149999994" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        </buttonConfiguration>
+                                        <connections>
+                                            <action selector="disconnectButtonTapped:" destination="I2a-g2-dlI" eventType="touchUpInside" id="0DR-4R-htx"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Eyk-b0-Ele">
+                                        <rect key="frame" x="0.0" y="126.99999999999999" width="250" height="34.333333333333329"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="gray" title="Iniciar senso de datos"/>
+                                        <connections>
+                                            <action selector="startSensingButtonTapped:" destination="I2a-g2-dlI" eventType="touchUpInside" id="FDo-eG-IO9"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Bf-X7-cjT">
+                                        <rect key="frame" x="0.0" y="169.33333333333331" width="250" height="34.333333333333343"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="gray" title="Detener senso de datos"/>
+                                        <connections>
+                                            <action selector="endSensingButtonTapped:" destination="I2a-g2-dlI" eventType="touchUpInside" id="pWk-x7-Zk8"/>
+                                        </connections>
+                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Datos recibidos: " textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="C6U-yd-wQR">
+                                        <rect key="frame" x="0.0" y="211.66666666666669" width="250" height="34.333333333333343"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="250" id="Fdt-OT-hvo"/>
+                                    <constraint firstItem="kyQ-rW-Uy8" firstAttribute="top" secondItem="UkK-fG-p10" secondAttribute="bottom" constant="100" id="OSh-y0-uWR"/>
+                                </constraints>
+                            </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vup-ms-2SU"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="yhH-EN-unQ" firstAttribute="leading" secondItem="vup-ms-2SU" secondAttribute="leading" id="LYp-aV-fPS"/>
+                            <constraint firstItem="s05-0e-HqC" firstAttribute="top" secondItem="vup-ms-2SU" secondAttribute="top" constant="180" id="MnY-jh-kRv"/>
+                            <constraint firstItem="vup-ms-2SU" firstAttribute="trailing" secondItem="s05-0e-HqC" secondAttribute="trailing" constant="72" id="qTr-9l-B8y"/>
                             <constraint firstItem="yhH-EN-unQ" firstAttribute="top" secondItem="vup-ms-2SU" secondAttribute="top" constant="50" id="sVd-Lc-V6r"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Actividades" largeTitleDisplayMode="always" id="ql3-ak-mB9">
                         <barButtonItem key="backBarButtonItem" title="Back" id="730-el-xad"/>
                     </navigationItem>
+                    <connections>
+                        <outlet property="connectButton" destination="kyQ-rW-Uy8" id="XVJ-fU-s3H"/>
+                        <outlet property="dataLabel" destination="C6U-yd-wQR" id="kLF-Ko-qmJ"/>
+                        <outlet property="disconnectButton" destination="Vvw-Dd-DM2" id="cho-pl-Dws"/>
+                        <outlet property="endSensingButton" destination="7Bf-X7-cjT" id="gDq-4G-KHL"/>
+                        <outlet property="startSensingButton" destination="Eyk-b0-Ele" id="FXo-g3-e7Z"/>
+                        <outlet property="stateLabel" destination="UkK-fG-p10" id="taf-tA-McC"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="glU-IZ-qly" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <exit id="FPa-yg-Rkz" userLabel="Exit" sceneMemberID="exit"/>
@@ -295,7 +361,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="yTp-kn-hsu"/>
+        <segue reference="Me7-ps-tMf"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="accessibility" catalog="system" width="128" height="123"/>

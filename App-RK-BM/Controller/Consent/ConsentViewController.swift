@@ -11,7 +11,6 @@ import GoogleSignIn
 import FirebaseCore
 import FirebaseAuth
 import FirebaseStorage
-import FirebaseFirestore
 
 class ConsentViewController: UIViewController {
 
@@ -24,6 +23,25 @@ class ConsentViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        
+        // observar la notificación para saber cuando el usuario ha sido cargado
+        NotificationCenter.default.addObserver(self, selector: #selector(userLoaded), name: Notification.Name("UserLoaded"), object: nil)
+        
+    }
+    
+    @objc func userLoaded() {
+        print("\thasAccepted: \(UserManager.shared.user.hasAccepted)")
+        // verificar si ya ha aceptado con firestore
+        if UserManager.shared.user.hasAccepted {
+            DispatchQueue.main.async {
+                self.performSegue(withIdentifier: "unwindToTasks", sender: nil)
+            }
+        }
+    }
+    
+    deinit {
+        // eliminar el observador para evitar filtraciones de memoria
+        NotificationCenter.default.removeObserver(self)
     }
     
     override func didReceiveMemoryWarning() {
@@ -86,7 +104,7 @@ class ConsentViewController: UIViewController {
             
             // Mostrar la alerta
             present(alertController, animated: true, completion: nil)
-        }
+    }
     
 }
 
@@ -108,8 +126,12 @@ extension ConsentViewController: ORKTaskViewControllerDelegate{
                 var docURL = (FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)).last
                 docURL = docURL?.appendingPathComponent("consent.pdf")
                 try? data?.write(to: docURL!, options: .atomicWrite)
-                self.uploadPDFCosent(fileURL: docURL!)
+                guard let currentUser = Auth.auth().currentUser else { return }
+                UserManager.shared.user.uid = currentUser.uid
+                StorageManager.shared.uploadPDFConsent(fileURL: docURL!)
             }
+            // poner valor de aceptado
+            UserManager.shared.user.hasAccepted = true
             // segue
             performSegue(withIdentifier: "unwindToTasks", sender: nil)
         case .discarded, .failed, .saved:
@@ -128,53 +150,5 @@ extension ConsentViewController: ORKTaskViewControllerDelegate{
             return healthStepViewController
         }
         return nil
-    }
-    
-    func uploadPDFCosent(fileURL: URL) {
-        guard let userID = Auth.auth().currentUser?.uid else {
-            print("Usuario no autenticado para subir el documento!")
-            return
-        }
-        
-        let storageRef = Storage.storage().reference()
-        // ruta en FireStorage
-        let pdfRef = storageRef.child("userDocuments/\(userID)/consent.pdf")
-        
-        // subir el archivo
-        pdfRef.putFile(from: fileURL, metadata: nil) {metadata, error in
-            if let error = error {
-                print("Error al subir el PDF: \(error.localizedDescription)")
-                return
-            }
-            
-            // obtener la URL de descarga
-            pdfRef.downloadURL {url, error in
-                if let error = error {
-                    print("Error al obtener la URL de descarga: \(error.localizedDescription)")
-                    return
-                }
-                
-                if let downloadURL = url {
-                    print("Archivo subido exitosamente. URL: \(downloadURL.absoluteString)")
-                    // Aquí puedes guardar la URL en Firestore o Realtime Database para asociarla con el usuario
-                }
-            }
-        }
-    }
-    
-    func saveConsentDocumentURLToFirestore(_ downloadURL: URL) {
-        guard let userID = Auth.auth().currentUser?.uid else {
-            print("El usuario no está autenticado")
-            return
-        }
-        
-        let db = Firestore.firestore()
-        db.collection("users").document(userID).setData(["cosentDocumentURL": downloadURL.absoluteString], merge: true) {error in
-            if let error = error {
-                print("Error al guardar la URL del documento: \(error.localizedDescription)")
-            } else {
-                print("URL del documento guardada")
-            }
-        }
     }
 }
