@@ -10,13 +10,15 @@ struct User: Codable {
     var hasAccepted: Bool
     var madeMMSE: Bool
     var madeIPAQ: Bool
+    var uid: String
     
     // constructor principal
-    init(consentDocumentURL: String, hasAccepted: Bool, madeMMSE: Bool, madeIPAQ: Bool) {
+    init(consentDocumentURL: String, hasAccepted: Bool, madeMMSE: Bool, madeIPAQ: Bool, uid: String) {
         self.consentDocumentURL = consentDocumentURL
         self.hasAccepted = hasAccepted
         self.madeMMSE = madeMMSE
         self.madeIPAQ = madeIPAQ
+        self.uid = uid
     }
     
     // constructor vacio con valores iniciales
@@ -25,6 +27,7 @@ struct User: Codable {
         self.hasAccepted = false
         self.madeIPAQ = false
         self.madeMMSE = false
+        self.uid = "null"
     }
     
 }

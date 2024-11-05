@@ -15,7 +15,7 @@ class UserManager {
     
     private init() {} // evitar crear instancias
     
-    func loadUser(_ uid: String, completion: @escaping (Result<User, Error>) -> Void) {
+    func loadUser(uid: String, completion: @escaping (Result<User, Error>) -> Void) {
         let db = Firestore.firestore()
         
         db.collection(self.collectionName).document(uid).getDocument { (document, error) in
@@ -30,6 +30,7 @@ class UserManager {
                 self.user.hasAccepted = data["hasAccepted"] as? Bool ?? false
                 self.user.madeIPAQ = data["madeIPAQ"] as? Bool ?? false
                 self.user.madeMMSE = data["madeMMSE"] as? Bool ?? false
+                self.user.uid = data["uid"] as? String ?? ""
                 // enviar user
                 completion(.success(self.user))
             } else {
@@ -40,21 +41,24 @@ class UserManager {
         }
     }
     
-    func saveUser(_ uid: String) {
+    func saveUser(completion: @escaping (Bool) -> Void) {
         let db = Firestore.firestore()
         
         let data = [
             "consentDocumentURL": self.user.consentDocumentURL,
             "hasAccepted": self.user.hasAccepted,
             "madeIPAQ": self.user.madeIPAQ,
-            "madeMMSE": self.user.madeMMSE
+            "madeMMSE": self.user.madeMMSE,
+            "uid": self.user.uid
         ] as [String : Any]
         
-        db.collection(self.collectionName).document(uid).setData(data) { error in
+        db.collection(self.collectionName).document(self.user.uid).setData(data) { error in
             if let error = error {
                 print("Error al guardar el user: \(error)")
+                completion(false) // el guardado falló
             } else {
                 print("User guardado exitosamente")
+                completion(true) // el guardado fue exitoso
             }
         }
     }

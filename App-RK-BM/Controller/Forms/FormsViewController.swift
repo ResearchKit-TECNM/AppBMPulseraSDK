@@ -7,7 +7,6 @@
 
 import UIKit
 import ResearchKitActiveTask
-import FirebaseAuth
 
 class FormsViewController: UIViewController, CLLocationManagerDelegate {
 
@@ -26,8 +25,6 @@ class FormsViewController: UIViewController, CLLocationManagerDelegate {
         
         // observador para saber cuando los datos estan listos
         NotificationCenter.default.addObserver(self, selector: #selector(locationDataIsReady), name: .locationReady, object: nil)
-        
-        UserManager.shared.user.madeIPAQ = true
         
         self.buttonsFormsManager()
     }
@@ -78,15 +75,6 @@ class FormsViewController: UIViewController, CLLocationManagerDelegate {
             print("Permiso de ubicación denegado o restringido")
         }
     }
-    
-    // guardar user al cerrar la pantalla por precaución
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        print("La vista Forms está a punto de desaparecer")
-        guard let uid = Auth.auth().currentUser?.uid else { return }
-        UserManager.shared.saveUser(uid)
-    }
-
 }
 
 extension FormsViewController: ORKTaskViewControllerDelegate {
@@ -173,11 +161,6 @@ extension FormsViewController: ORKTaskViewControllerDelegate {
             }
         }
         
-        guard let user = Auth.auth().currentUser else {
-            print("No hay usuario autenticado para subir el formulario")
-            return
-        }
-        
-        StorageManager.shared.updateFormToFirestore(type: typeForm, questions: questionsList, answers: answersList, uid: user.uid)
+        StorageManager.shared.updateFormToFirestore(type: typeForm, questions: questionsList, answers: answersList)
     }
 }

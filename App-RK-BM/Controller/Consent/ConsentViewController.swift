@@ -23,7 +23,6 @@ class ConsentViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        UserManager.shared.user.hasAccepted = true
         
         print("\thasAccepted: \(UserManager.shared.user.hasAccepted)")
         
@@ -118,8 +117,8 @@ extension ConsentViewController: ORKTaskViewControllerDelegate{
                 docURL = docURL?.appendingPathComponent("consent.pdf")
                 try? data?.write(to: docURL!, options: .atomicWrite)
                 guard let currentUser = Auth.auth().currentUser else { return }
-                StorageManager.shared.uploadPDFConsent(fileURL: docURL!, uid: currentUser.uid)
-                // self.uploadPDFCosent(fileURL: docURL!)
+                UserManager.shared.user.uid = currentUser.uid
+                StorageManager.shared.uploadPDFConsent(fileURL: docURL!)
             }
             // poner valor de aceptado
             UserManager.shared.user.hasAccepted = true
@@ -142,40 +141,4 @@ extension ConsentViewController: ORKTaskViewControllerDelegate{
         }
         return nil
     }
-    
-    // cambios a futuro
-    /*
-    func uploadPDFCosent(fileURL: URL) {
-        guard let userID = Auth.auth().currentUser?.uid else {
-            print("Usuario no autenticado para subir el documento!")
-            return
-        }
-        
-        let storageRef = Storage.storage().reference()
-        // ruta en FireStorage
-        let pdfRef = storageRef.child("userDocuments/\(userID)/consent.pdf")
-        
-        // subir el archivo
-        pdfRef.putFile(from: fileURL, metadata: nil) {metadata, error in
-            if let error = error {
-                print("Error al subir el PDF: \(error.localizedDescription)")
-                return
-            }
-            
-            // obtener la URL de descarga
-            pdfRef.downloadURL {url, error in
-                if let error = error {
-                    print("Error al obtener la URL de descarga: \(error.localizedDescription)")
-                    return
-                }
-                
-                if let downloadURL = url {
-                    print("Archivo subido exitosamente. URL: \(downloadURL.absoluteString)")
-                    // Aquí puedes guardar la URL en Firestore o Realtime Database para asociarla con el usuario
-                    UserManager.shared.user.consentDocumentURL = downloadURL.absoluteString
-                }
-            }
-        }
-    }
-    */
 }

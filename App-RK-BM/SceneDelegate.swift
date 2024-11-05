@@ -34,6 +34,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func sceneWillResignActive(_ scene: UIScene) {
         // Called when the scene will move from an active state to an inactive state.
         // This may occur due to temporary interruptions (ex. an incoming phone call).
+        print("sceneWillResignActive")
     }
 
     func sceneWillEnterForeground(_ scene: UIScene) {
@@ -46,8 +47,27 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Called as the scene transitions from the foreground to the background.
         // Use this method to save data, release shared resources, and store enough scene-specific state information
         // to restore the scene back to its current state.
+        print("sceneDidEnterBackground")
+
+        // Guardar User
+        
+        // declarar el taskID para poder usarlo despues
+        var taskID: UIBackgroundTaskIdentifier = UIBackgroundTaskIdentifier.invalid
+        
+        // intentar guardar el user en segundo plano de forma segura
+        taskID = UIApplication.shared.beginBackgroundTask(withName: "saveUser") {
+            // fin del tiempo en segundo plano, si el guardado aun no ha terminado
+            UIApplication.shared.endBackgroundTask(taskID)
+        }
+        
+        // llamada para guardar el user
+        UserManager.shared.saveUser { succes in
+            if succes {
+                print("Guardado del user exitoso en segundo plano")
+            } else {
+                print("Error al guardar el user")
+            }
+            UIApplication.shared.endBackgroundTask(taskID)
+        }
     }
-
-
 }
-

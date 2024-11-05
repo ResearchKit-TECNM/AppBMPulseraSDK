@@ -13,10 +13,10 @@ class StorageManager {
     
     private init() {}
     
-    func uploadPDFConsent(fileURL: URL,uid: String) {
+    func uploadPDFConsent(fileURL: URL) {
         let storageRef = Storage.storage().reference()
         // ruta en Storage
-        let pdfRef = storageRef.child("userDocuments/\(uid)/consent.pdf")
+        let pdfRef = storageRef.child("userDocuments/\(UserManager.shared.user.uid)/consent.pdf")
         
         // subir el archivo
         pdfRef.putFile(from: fileURL, metadata: nil) { metadata, error in
@@ -40,7 +40,7 @@ class StorageManager {
         }
     }
     
-    func updateFormToFirestore(type: String, questions: [String], answers: [String], uid: String) {
+    func updateFormToFirestore(type: String, questions: [String], answers: [String]) {
         DispatchQueue.global(qos: .background).async {
             var data: [String: String] = [:]
             
@@ -76,11 +76,11 @@ class StorageManager {
             
             let db = Firestore.firestore()
             
-            db.collection(type).document(uid).setData(data) { error in
+            db.collection(type).document(UserManager.shared.user.uid).setData(data) { error in
                 if let error = error {
                     print("Error al subir el formulario: \(error.localizedDescription)")
                 } else {
-                    print("Formulario subido exitosamente para el usuario con UID \(uid).")
+                    print("Formulario subido exitosamente para el usuario con UID \(UserManager.shared.user.uid).")
                 }
             }
         }
