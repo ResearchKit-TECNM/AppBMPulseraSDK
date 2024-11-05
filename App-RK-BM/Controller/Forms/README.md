@@ -9,8 +9,8 @@ El modo de acceder a los metodos de la clase es el siguiente:
 
 Los formularios son devueltos como un _ORKOrderedTask_ de ResearchKit, esto permite presentar las preguntas del formulario de una manera secuencial, ordenada y bien estructurada.
 La versión elegida para cada formulario se muestra a continuación y es importante ya que en base a ella y a su orden es como se muestran las preguntas.
-<img src="">
-<img src="">
+<img src="./src/img/MMSE.png", alt="Formulario MMSE">
+<img src="./src/img/IPAQ.png", alt="Formulario IPAQ">
 
 Las respuestas del usuario a cada pregunta se ven ligadas a la pregunta en la cual se registraron, se este modo son filtradas y subidas a Firebase
 
