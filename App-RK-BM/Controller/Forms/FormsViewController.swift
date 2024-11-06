@@ -10,6 +10,7 @@ import ResearchKitActiveTask
 
 class FormsViewController: UIViewController, CLLocationManagerDelegate {
 
+    @IBOutlet weak var recordButton: UIButton!
     @IBOutlet weak var ipaqButton: UIButton!
     @IBOutlet weak var mmseButton: UIButton!
     
@@ -45,6 +46,12 @@ class FormsViewController: UIViewController, CLLocationManagerDelegate {
         } else {
             self.mmseButton.isEnabled = true
         }
+        if UserManager.shared.user.madeMR {
+            self.recordButton.isEnabled = false
+        } else {
+            self.recordButton.isEnabled = true
+        }
+            
     }
     
     @IBAction func mmseButtonTapped(_ sender: UIButton) {
@@ -60,6 +67,14 @@ class FormsViewController: UIViewController, CLLocationManagerDelegate {
         formTaskViewController.delegate = self
         present(formTaskViewController, animated: true, completion: nil)
     }
+    
+    @IBAction func recordButtonTapped(_ sender: UIButton) {
+        let formTask = FormTask.shared.createMedicalRecordTask()
+        let formTaskViewController = ORKTaskViewController(task: formTask, taskRun: nil)
+        formTaskViewController.delegate = self
+        present(formTaskViewController, animated: true, completion: nil)
+    }
+    
     
     @IBAction func backButtonTapped(_ sender: UIButton) {
         // seguir con el unwindSegue
@@ -113,6 +128,9 @@ extension FormsViewController: ORKTaskViewControllerDelegate {
         } else if result.identifier == "IPAQ" {
             typeForm = "IPAQ"
             UserManager.shared.user.madeIPAQ = true
+        } else if result.identifier == "MedicalRecord" {
+            typeForm = "MedicalRecord"
+            UserManager.shared.user.madeMR = true
         }
         
         // Desempaquetar result.results con guard let

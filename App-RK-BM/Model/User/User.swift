@@ -10,14 +10,16 @@ struct User: Codable {
     var hasAccepted: Bool
     var madeMMSE: Bool
     var madeIPAQ: Bool
+    var madeMR: Bool
     var uid: String
     
     // constructor principal
-    init(consentDocumentURL: String, hasAccepted: Bool, madeMMSE: Bool, madeIPAQ: Bool, uid: String) {
+    init(consentDocumentURL: String, hasAccepted: Bool, madeMMSE: Bool, madeIPAQ: Bool, madeMR: Bool, uid: String) {
         self.consentDocumentURL = consentDocumentURL
         self.hasAccepted = hasAccepted
         self.madeMMSE = madeMMSE
         self.madeIPAQ = madeIPAQ
+        self.madeMR = madeMR
         self.uid = uid
     }
     
@@ -27,6 +29,7 @@ struct User: Codable {
         self.hasAccepted = false
         self.madeIPAQ = false
         self.madeMMSE = false
+        self.madeMR = false
         self.uid = "null"
     }
     

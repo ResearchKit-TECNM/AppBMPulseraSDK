@@ -107,7 +107,7 @@
                                 </connections>
                             </button>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="ZIx-bi-iDt">
-                                <rect key="frame" x="60" y="184.33333333333334" width="273" height="119.00000000000003"/>
+                                <rect key="frame" x="60" y="184.33333333333331" width="273" height="161.33333333333331"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Formularios" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jKJ-km-kxt">
                                         <rect key="frame" x="0.0" y="0.0" width="273" height="34.333333333333336"/>
@@ -131,6 +131,14 @@
                                             <action selector="ipaqButtonTapped:" destination="KX0-qu-BAE" eventType="touchUpInside" id="kqN-n2-VUT"/>
                                         </connections>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uGX-xt-MVm">
+                                        <rect key="frame" x="0.0" y="126.99999999999996" width="273" height="34.333333333333329"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" image="stethoscope" catalog="system" title="Historia Clinica"/>
+                                        <connections>
+                                            <action selector="recordButtonTapped:" destination="KX0-qu-BAE" eventType="touchUpInside" id="mgm-U2-3qk"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                             </stackView>
                         </subviews>
@@ -148,6 +156,7 @@
                     <connections>
                         <outlet property="ipaqButton" destination="QXy-ge-uVp" id="7jx-g3-K13"/>
                         <outlet property="mmseButton" destination="yYS-JV-Sup" id="yI2-ue-2LB"/>
+                        <outlet property="recordButton" destination="uGX-xt-MVm" id="NHC-cR-wIV"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GuF-2W-M9c" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -370,6 +379,7 @@
         <image name="document.circle.fill" catalog="system" width="128" height="123"/>
         <image name="googleIcon" width="24" height="24"/>
         <image name="person.2.fill" catalog="system" width="128" height="86"/>
+        <image name="stethoscope" catalog="system" width="128" height="101"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

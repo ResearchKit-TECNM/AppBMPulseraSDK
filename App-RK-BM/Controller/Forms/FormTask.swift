@@ -219,4 +219,369 @@ class FormTask {
         
         return ORKOrderedTask(identifier: "IPAQ", steps: steps)
     }
+    
+    func createMedicalRecordTask() -> ORKOrderedTask {
+        var steps = [ORKStep]()
+        
+        let textAnswerFormat = ORKTextAnswerFormat(maximumLength: 80)
+        
+        // Instrucciones iniciales
+        let formInstructionsStep = ORKInstructionStep(identifier: "instructions")
+        formInstructionsStep.title = "Cuestionario de historial médico."
+        formInstructionsStep.text = "El presente cuestionario tiene como objetivo conocer sus capacidades físicas y reunir información revelante para el estudio. Toda la información que ingrese es privada y solo será utilizada para el mismo."
+        formInstructionsStep.image = UIImage(systemName: "heart.fill")
+        formInstructionsStep.imageContentMode = .scaleAspectFit
+        steps.append(formInstructionsStep)
+        
+        let personalInfoStep = ORKInstructionStep(identifier: "personalInfoStep")
+        personalInfoStep.title = "Información personal"
+        personalInfoStep.text = "Acontinuación se te pedirá datos de tu información personal"
+        personalInfoStep.image = UIImage(systemName: "person.fill")
+        steps.append(personalInfoStep)
+        
+        let nameQuestionStep = ORKQuestionStep(identifier: "nameQuestion", title: "Nombre", question: "¿Cuál es tu nombre?", answer: textAnswerFormat)
+        steps.append(nameQuestionStep)
+        
+        let gendChoices = [
+            ORKTextChoice(text: "Hombre", value: "male" as NSString),
+            ORKTextChoice(text: "Mujer", value: "female" as NSString),
+            ORKTextChoice(text: "Prefiero no decirlo", value: "Inf" as NSString)]
+        let genderChoiceFormat = ORKTextChoiceAnswerFormat(style: .singleChoice, textChoices: gendChoices)
+        let sexGenderQuestionStep = ORKQuestionStep(identifier: "sexQuestion", title: "¿Sexo", question: "¿Cuál es tu sexo?", answer: genderChoiceFormat)
+        sexGenderQuestionStep.isOptional = false
+        steps.append(sexGenderQuestionStep)
+        
+        let ageQuestion = ORKFormItem(sectionTitle: "¿Cuántos años tienes?")
+        let ageAnswerFormat = ORKNumericAnswerFormat(style: .integer, unit: nil, minimum: 16, maximum: 120)
+        let ageQuestionFormItem = ORKFormItem(identifier: "ageQuestion", text: nil, answerFormat: ageAnswerFormat)
+        ageQuestionFormItem.placeholder = "Presiona aquí"
+        ageQuestionFormItem.isOptional = false
+        let ageForm = ORKFormStep(identifier: "ageQuestion", title: "Edad", text: " ")
+        ageForm.formItems = [ageQuestion, ageQuestionFormItem]
+        ageForm.isOptional = false
+        steps.append(ageForm)
+        
+        // peso
+        let weightChoices = (35...200).map { ORKTextChoice(text: "\($0) kg", value: "\($0) kg" as NSString) }
+        let weightAnswerFormat = ORKValuePickerAnswerFormat(textChoices: weightChoices)
+        let weightQuestionStep = ORKQuestionStep(identifier: "weightQuestion", title: "Peso", question: "¿Cuál es tu peso?", answer: weightAnswerFormat)
+        weightQuestionStep.isOptional = false
+        steps.append(weightQuestionStep)
+
+        // estatura
+        let heightChoices = (130...210).map { ORKTextChoice(text: "\($0) cm", value: "\($0) cm" as NSString) }
+        let heightAnswerFormat = ORKValuePickerAnswerFormat(textChoices: heightChoices)
+        let heightQuestionStep = ORKQuestionStep(identifier: "heightQuestion", title: "Estatura", question: "¿Cuánto mides?", answer: heightAnswerFormat)
+        heightQuestionStep.isOptional = false
+        steps.append(heightQuestionStep)
+        
+        // residencia
+        let residenceChoice = "Residencia"
+        let residenceChoices = [
+            ORKTextChoice(text: "Urbana", value: "urban" as NSString),
+            ORKTextChoice(text: "Sub-Urbana", value: "sub-urban" as NSString),
+            ORKTextChoice(text: "Rural", value: "rural" as NSString)]
+        let residenceChoiceFormat = ORKTextChoiceAnswerFormat(style: .singleChoice, textChoices: residenceChoices)
+        let residenceQuestionStep = ORKQuestionStep(identifier: "residenceQuestion", title: residenceChoice,question: "¿En que tipo de zona vives?", answer: residenceChoiceFormat)
+        residenceQuestionStep.isOptional = false
+        steps.append(residenceQuestionStep)
+        
+        // ocupación
+        let occupationQuestionTitle = "Ocupación"
+        let occupationChoices = [
+            ORKTextChoice(text: "Estudiante", value: "student" as NSString),
+            ORKTextChoice(text: "Empleado", value: "employee" as NSString),
+            ORKTextChoice(text: "Emprendedor", value: "entrepreneur" as NSString),
+            ORKTextChoice(text: "Desempleado", value: "unemployed" as NSString),
+            ORKTextChoice(text: "Retirado", value: "retired" as NSString),
+            ORKTextChoice(text: "Hogar", value: "home" as NSString),
+            ORKTextChoice(text: "Otro", value: "other" as NSString)]
+        let occupationChoiceFormat = ORKValuePickerAnswerFormat(textChoices: occupationChoices)
+        let occupationQuestionStep = ORKQuestionStep(identifier: "occupationQuestion", title: occupationQuestionTitle, question: "¿A que te dedicas?", answer: occupationChoiceFormat)
+        occupationQuestionStep.isOptional = false
+        steps.append(occupationQuestionStep)
+        
+        // información adicional de ocupación
+        let specifyOccupationAnswerFormat = ORKTextAnswerFormat(maximumLength: 200)
+        specifyOccupationAnswerFormat.multipleLines = true // Permitir múltiples líneas para detalles extensos
+        let occupationFormStep = ORKFormStep(identifier: "07Ocupacion", title: "Ocupación", text: "Especifica si es necesario.")
+        occupationFormStep.formItems = [
+            ORKFormItem(identifier: "occupationQuestion2", text: nil, answerFormat: occupationChoiceFormat),
+            ORKFormItem(identifier: "occupationQuestion3", text: nil, answerFormat: specifyOccupationAnswerFormat)
+        ]
+        steps.append(occupationFormStep)
+
+        //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-
+
+        // Heredo Familiares
+        let hereditaryInfoStepTitle = "Historial Patológico Heredofamiliar"
+        let hereditaryInfoStep = ORKInstructionStep(identifier: "hereditaryInfoStep")
+        hereditaryInfoStep.title = hereditaryInfoStepTitle
+        hereditaryInfoStep.text = "En esta área te preguntaremos acerca de las enfermedades que padecen en tu familia"
+        hereditaryInfoStep.image = UIImage(systemName: "person.3.fill")
+
+        // patologias hereditarias
+        let patologyChoice = "Patologías"
+        let patologyChoices = [
+            ORKTextChoice(text: "Diabetes", value: "diabetes" as NSString),
+            ORKTextChoice(text: "Cardiopatias", value: "cardiopatias" as NSString),
+            ORKTextChoice(text: "Hipertensión", value: "hypertension" as NSString),
+            ORKTextChoice(text: "Cáncer", value: "cancer" as NSString),
+            ORKTextChoice(text: "Asma", value: "asthma" as NSString),
+            ORKTextChoice(text: "Otro", value: "other" as NSString),
+            ORKTextChoice(text: "Ninguna", value: "none" as NSString)
+        ]
+        let patologyChoiceFormat = ORKTextChoiceAnswerFormat(style: .multipleChoice, textChoices: patologyChoices)
+        let patologyQuestionStep = ORKQuestionStep(identifier: "pathologiesQuestion", title: patologyChoice, question: "Selecciona unicamente las patologías que tienen o hayan tenido tus padres o tus abuelos", answer: patologyChoiceFormat)
+        patologyQuestionStep.isOptional = false
+        steps.append(patologyQuestionStep)
+        
+        // patologías mentales hereditarias
+        let mentalPatologyChoice = "Patologías Mentales"
+        let mentalPatologyChoices = [
+            ORKTextChoice(text: "Bipolaridad", value: "bipolarity" as NSString),
+            ORKTextChoice(text: "Autismo", value: "autism" as NSString),
+            ORKTextChoice(text: "Depresión", value: "depression" as NSString),
+            ORKTextChoice(text: "TDAH", value: "TDAH" as NSString),
+            ORKTextChoice(text: "Ansiedad", value: "anxiety" as NSString),
+            ORKTextChoice(text: "Otro", value: "other" as NSString),
+            ORKTextChoice(text: "Ninguna", value: "none" as NSString)
+        ]
+        let mentalPatologyChoiceFormat = ORKTextChoiceAnswerFormat(style: .multipleChoice, textChoices: mentalPatologyChoices)
+        let mentalPatologyQuestionStep = ORKQuestionStep(identifier: "mentalPathologiesQuestion", title: mentalPatologyChoice, question: "Selecciona solo las patologías mentales que tienen o tuvieron tus familiares cercanos como padre, madre, abuelo o abuela.", answer: mentalPatologyChoiceFormat)
+        mentalPatologyQuestionStep.isOptional = false
+        steps.append(mentalPatologyQuestionStep)
+
+        //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+              
+        // antecedentes personales patológicos
+        let persInfoStepTitle = "Historial Patológico Personal"
+        let persInfoStep = ORKInstructionStep(identifier: "persInfoStep")
+        persInfoStep.title = persInfoStepTitle
+        persInfoStep.text = "En esta sección te haremos preguntas con respecto a las enfermedades que has padecido o padeces"
+        persInfoStep.image = UIImage(systemName: "person.crop.circle")
+        steps.append(persInfoStep)
+        
+        // enfermedades propias
+        let diseasesChoice = "Enfermedades"
+        let diseasesChoices = [
+            ORKTextChoice(text: "Diabetes", value: "diabetes" as NSString),
+            ORKTextChoice(text: "Cardiopatías", value: "cardiopatias" as NSString),
+            ORKTextChoice(text: "Hipertension", value: "hypertension" as NSString),
+            ORKTextChoice(text: "Cáncer", value: "cancer" as NSString),
+            ORKTextChoice(text: "Asma", value: "asthma" as NSString),
+            ORKTextChoice(text: "Hepatitis", value: "hepatitis" as NSString),
+            ORKTextChoice(text: "Covid", value: "covid" as NSString),
+            ORKTextChoice(text: "Tuberculosis", value: "tuberculosis" as NSString),
+            ORKTextChoice(text: "SIDA", value: "SIDA" as NSString),
+            ORKTextChoice(text: "Bipolaridad", value: "bipolarity" as NSString),
+            ORKTextChoice(text: "Autismo", value: "autism" as NSString),
+            ORKTextChoice(text: "Depresión", value: "depression" as NSString),
+            ORKTextChoice(text: "TDAH", value: "TDAH" as NSString),
+            ORKTextChoice(text: "Ansiedad", value: "anxiety" as NSString),
+            ORKTextChoice(text: "Otro", value: "other" as NSString),
+            ORKTextChoice(text: "Ninguna", value: "none" as NSString)]
+        
+        let diseasesChoiceFormat = ORKTextChoiceAnswerFormat(style: .multipleChoice, textChoices: diseasesChoices)
+        let diseasesQuestionStep = ORKQuestionStep(identifier: "personalPathologiesQuestion", title: diseasesChoice, question: "Selecciona las enfermedades que has padecido o padeces.", answer: diseasesChoiceFormat)
+        diseasesQuestionStep.isOptional = false
+        steps.append(diseasesQuestionStep)
+        
+        // vacunación
+        let vaccinationQuestionTitle = "Vacunación"
+        let vaccinationChoices = [
+            ORKTextChoice(text: "Si", value: "yes" as NSString),
+            ORKTextChoice(text: "No", value: "no" as NSString),
+            ORKTextChoice(text: "No recuerdo", value: "dont remember" as NSString)
+        ]
+        let vaccinationChoiceFormat = ORKValuePickerAnswerFormat(textChoices: vaccinationChoices)
+        let vaccinationQuestionStep = ORKQuestionStep(identifier: "vaccinationQuestion", title: vaccinationQuestionTitle, question: "¿Tienes tu esquema de vacunación completo?", answer: vaccinationChoiceFormat)
+        vaccinationQuestionStep.isOptional = false
+        steps.append(vaccinationQuestionStep)
+
+        // bebe alcohol?
+        let alcoholQuestionTitle = "Bebedor de Alcohol"
+        let alcoholChoices = [
+            ORKTextChoice(text: "No bebo alcohol", value: "no alcohol" as NSString),
+            ORKTextChoice(text: "Bebedor Social", value: "social drinker" as NSString),
+            ORKTextChoice(text: "Bebedor Ocasional", value: "occasional drinker" as NSString),
+            ORKTextChoice(text: "Dependiente del Alcohol", value: "dependent drinker" as NSString)]
+        let alcoholChoiceFormat = ORKValuePickerAnswerFormat(textChoices: alcoholChoices)
+        let alcoholQuestionStep = ORKQuestionStep(identifier: "alcoholQuestion", title: alcoholQuestionTitle, question: "¿Que tipo de bebedor de alcohol eres?", answer: alcoholChoiceFormat)
+         alcoholQuestionStep.isOptional = false
+        steps.append(alcoholQuestionStep)
+        
+        // tabaco
+        let smokeQuestionTitle = "Fumador de Tabaco"
+        let smokeChoices = [
+            ORKTextChoice(text: "No fumador", value: "no smoker" as NSString),
+            ORKTextChoice(text: "Fumador Social", value: "social smoker" as NSString),
+            ORKTextChoice(text: "Fumador Ocasional", value: "occasional smoker" as NSString),
+            ORKTextChoice(text: "Dependiente del tabaco", value: "dependent smoker" as NSString)
+        ]
+        let smokeChoiceFormat = ORKValuePickerAnswerFormat(textChoices: smokeChoices)
+        let smokeQuestionStep = ORKQuestionStep(identifier: "tobaccoQuestion", title: smokeQuestionTitle, question: "¿Que tipo de fumador eres?", answer: smokeChoiceFormat)
+         smokeQuestionStep.isOptional = false
+        steps.append(smokeQuestionStep)
+
+        // drogas
+        // cambiar la pregunta a una menos comprometedora y aclaracion del uso de la informacion
+        let drugsPatologyChoice = "Drogas"
+        let drugsPatologyChoices = [
+            ORKTextChoice(text: "No consumo drogas", value: "no drugs" as NSString),
+            ORKTextChoice(text: "Marihuana", value: "marihuana" as NSString),
+            ORKTextChoice(text: "Cocaina", value: "cocaine" as NSString),
+            ORKTextChoice(text: "MDMA (Extasis)", value: "MDMA" as NSString),
+            ORKTextChoice(text: "Heroina", value: "heroina" as NSString),
+            ORKTextChoice(text: "Metanfetaminas", value: "methamphetamine" as NSString),
+            ORKTextChoice(text: "LSD", value: "LSD" as NSString),
+            ORKTextChoice(text: "Hongos Alucionógenos", value: "hallucinogenic mushrooms" as NSString),
+            ORKTextChoice(text: "Otro", value: "other" as NSString)
+        ]
+        let drugsPatologyChoiceFormat = ORKTextChoiceAnswerFormat(style: .multipleChoice, textChoices: drugsPatologyChoices)
+        let drugsPatologyQuestionStep = ORKQuestionStep(identifier: "drugsQuestion", title: drugsPatologyChoice, question: "Selecciona la sustancia o sustancias que consumes", answer: drugsPatologyChoiceFormat)
+            drugsPatologyQuestionStep.isOptional = false
+        steps.append(drugsPatologyQuestionStep)
+        
+        let frecuencyDrugsQuestionTitle = "Frecuencia de uso de sustancias"
+        let frecuencyDrugsChoices = [
+            ORKTextChoice(text: "Nunca", value: "never" as NSString),
+            ORKTextChoice(text: "Poco", value: "bit" as NSString),
+            ORKTextChoice(text: "Moderado", value: "moderate" as NSString),
+            ORKTextChoice(text: "Mucho", value: "a lot" as NSString)
+        ]
+        let frecuencyDrugsChoiceFormat = ORKValuePickerAnswerFormat(textChoices: frecuencyDrugsChoices)
+        let frecuencyDrugsQuestionStep = ORKQuestionStep(identifier: "drugsFrecuencyQuestion", title: frecuencyDrugsQuestionTitle, question: "¿Con que frecuencia consumes dichas sustancias?", answer: frecuencyDrugsChoiceFormat)
+        frecuencyDrugsQuestionStep.isOptional = false
+        steps.append(frecuencyDrugsQuestionStep)
+
+        //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+            
+        // Antecedentes no patológicos
+                
+        let noPersInfoStepTitle = "Historial No Patológico"
+        let noPersInfoStep = ORKInstructionStep(identifier: "NoPathological")
+        noPersInfoStep.title = noPersInfoStepTitle
+        noPersInfoStep.text = "En esta sección, encontrará preguntas sobre sus antecedentes no patológicos, como sus actividades diarias y hábitos personales."
+        noPersInfoStep.image = UIImage(systemName: "book.fill")
+        steps.append(noPersInfoStep)
+
+        // pregunta de actividad física en escala de likert
+        let scaleQuestionStepTitle = "Actividad Física"
+        let scaleAnswerFormat = ORKScaleAnswerFormat(maximumValue: 10, minimumValue: 0, defaultValue: 0, step: 1)
+        let scaleQuestionStep = ORKQuestionStep(identifier: "physicalActivityQuestion", title: scaleQuestionStepTitle,question: "¿Que tan activo eres?", answer: scaleAnswerFormat)
+        scaleQuestionStep.isOptional = false
+        steps.append(scaleQuestionStep)
+        
+        // Tipo de actividad fisica que realizas.
+        let multiChoiceQuestionStepTitle = "¿Que tipo de actividades físicas realizas?"
+        let textChoices = [
+            ORKTextChoice(text: "Caminar", value: "walk" as NSString),
+            ORKTextChoice(text: "Correr", value: "run" as NSString),
+            ORKTextChoice(text: "Nadar", value: "swim" as NSString),
+            ORKTextChoice(text: "Ciclismo", value: "cycling" as NSString),
+            ORKTextChoice(text: "Futbol", value: "soccer" as NSString),
+            ORKTextChoice(text: "Basquetbol", value: "basketball" as NSString),
+            ORKTextChoice(text: "Tenis", value: "tennis" as NSString),
+            ORKTextChoice(text: "Beisbol", value: "baseball" as NSString),
+            ORKTextChoice(text: "Golf", value: "golf" as NSString),
+            ORKTextChoice(text: "Atletismo", value: "athletics" as NSString),
+            ORKTextChoice(text: "Futbol Americano", value: "american soccer" as NSString),
+            ORKTextChoice(text: "Artes Marciales", value: "martial arts" as NSString),
+            ORKTextChoice(text: "Otro", value: "other" as NSString),
+            ORKTextChoice(text: "Ninguno", value: "none" as NSString)
+        ]
+        
+        let multiChoiceAnswerFormat = ORKTextChoiceAnswerFormat(style: .multipleChoice, textChoices: textChoices)
+        let multiChoiceQuestionStep = ORKQuestionStep(identifier: "typePhysicalActivityQuestion", title: multiChoiceQuestionStepTitle, question: "Selecciona las actividades que hagas regularmente", answer: multiChoiceAnswerFormat)
+        multiChoiceQuestionStep.isOptional = false
+        steps.append(multiChoiceQuestionStep)
+        
+        // hobbies
+        let hobbieQuestionStepTitle = "¿Cuales son tus Hobbies?"
+        let hobbietextChoices = [
+            ORKTextChoice(text: "Leer", value: "read" as NSString),
+            ORKTextChoice(text: "Ver Películas y Series", value: "watch movies and series" as NSString),
+            ORKTextChoice(text: "Jugar videojuegos", value: "play videogames" as NSString),
+            ORKTextChoice(text: "Cocinar y hornear", value: "cook" as NSString),
+            ORKTextChoice(text: "Viajar", value: "travel" as NSString),
+            ORKTextChoice(text: "Jardinería", value: "gardening" as NSString),
+            ORKTextChoice(text: "Artes", value: "arts" as NSString),
+            ORKTextChoice(text: "Musica", value: "music" as NSString),
+            ORKTextChoice(text: "Fotografía", value: "photography" as NSString),
+            ORKTextChoice(text: "Escribir", value: "write" as NSString),
+            ORKTextChoice(text: "Bailar", value: "dance" as NSString),
+            ORKTextChoice(text: "Otro", value: "other" as NSString),
+            ORKTextChoice(text: "Ninguno", value: "none" as NSString)]
+        let hobbieAnswerFormat = ORKTextChoiceAnswerFormat(style: .multipleChoice, textChoices: hobbietextChoices)
+        let hobbieQuestionStep = ORKQuestionStep(identifier: "hobbieQuestion", title: hobbieQuestionStepTitle, question: "Selecciona los hobbies que hagas con regularidad", answer: hobbieAnswerFormat)
+        hobbieQuestionStep.isOptional = false
+        steps.append(hobbieQuestionStep)
+
+        // level of study
+        let studyQuestionTitle = "Nivel de estudios"
+        let studyChoices = [
+            ORKTextChoice(text: "Primaria", value: "primaria" as NSString),
+            ORKTextChoice(text: "Secundaria", value: "secundaria" as NSString),
+            ORKTextChoice(text: "Preparatoria", value: "preparatoria" as NSString),
+            ORKTextChoice(text: "Universidad", value: "univesidad" as NSString),
+            ORKTextChoice(text: "Maestría", value: "maestría" as NSString),
+            ORKTextChoice(text: "Doctorado", value: "doctorado" as NSString),
+            ORKTextChoice(text: "Otro", value: "other" as NSString)
+        ]
+        let studyChoiceFormat = ORKValuePickerAnswerFormat(textChoices: studyChoices)
+        let studyQuestionStep = ORKQuestionStep(identifier: "studyQuestion", title: studyQuestionTitle, question: "¿Cuál es tu nivel de estudios?", answer: studyChoiceFormat)
+        studyQuestionStep.isOptional = false
+        steps.append(studyQuestionStep)
+        
+        // transporte
+        let transportationQuestionTitle = "Medios de transporte"
+        let transportationChoices = [
+            ORKTextChoice(text: "Trabajo desde casa", value: "telecommuting" as NSString),
+            ORKTextChoice(text: "Carro", value: "car" as NSString),
+            ORKTextChoice(text: "Transporte público (autobus, metro, tren, otro)", value: "public transport" as NSString),
+            ORKTextChoice(text: "Bicicleta", value: "bicycle" as NSString),
+            ORKTextChoice(text: "Motocicleta", value: "motorcycle" as NSString),
+            ORKTextChoice(text: "Caminando", value: "walking" as NSString),
+            ORKTextChoice(text: "Scooter electrica", value: "electricscooter" as NSString),
+            ORKTextChoice(text: "Skateboard", value: "skateboard" as NSString),
+            ORKTextChoice(text: "Otro", value: "other" as NSString)]
+        let transportationChoiceFormat = ORKValuePickerAnswerFormat(textChoices: transportationChoices)
+        let transportationQuestionStep = ORKQuestionStep(identifier: "transportationQuestion", title: transportationQuestionTitle, question: "¿Cuál es el medio de transporte que utiliza desde su casa al trabajo o escuela?", answer: transportationChoiceFormat)
+        transportationQuestionStep.isOptional = false
+        steps.append(transportationQuestionStep)
+
+        //Alimentación
+        // cuantas veces comes
+        let alimentationQuestionStepTitle = "Alimentación"
+        let alimentationAnswerFormat = ORKScaleAnswerFormat(maximumValue: 10, minimumValue: 0, defaultValue: 0, step: 1)
+        let feedingQuestionStep = ORKQuestionStep(identifier: "feedingQuestion", title: alimentationQuestionStepTitle,question: "¿Cuantas comidas haces por día?", answer: alimentationAnswerFormat)
+        feedingQuestionStep.isOptional = false
+        steps.append(feedingQuestionStep)
+
+        // tipo de alimento
+        //modificar la pregunta
+        let typeFoodChoice = "Tipos de comida"
+        let typeFoodChoices = [
+            ORKTextChoice(text: "Pollo", value: "chicken" as NSString),
+                ORKTextChoice(text: "Res", value: "beef" as NSString),
+                ORKTextChoice(text: "Cerdo", value: "pig" as NSString),
+                ORKTextChoice(text: "Marina", value: "marina" as NSString),
+                ORKTextChoice(text: "Frutas/Vegetales", value: "fruits/vegetables" as NSString),
+                ORKTextChoice(text: "Otros", value: "other" as NSString)]
+        let typeFoodChoiceFormat = ORKTextChoiceAnswerFormat(style: .multipleChoice, textChoices: typeFoodChoices)
+        let typeFoodQuestionStep = ORKQuestionStep(identifier: "typeFoodQuestion", title: typeFoodChoice, question: "¿Que tipo de comida consumes?", answer: typeFoodChoiceFormat)
+        typeFoodQuestionStep.isOptional = false
+        steps.append(typeFoodQuestionStep)
+
+        //Fin de la prueba
+        let completionStep = ORKCompletionStep(identifier: "completion")
+        completionStep.title = "Fin del cuestionario!"
+        completionStep.text = "Gracias por completar el cuestionario y por tomarte tu tiempo!"
+        completionStep.iconImage = UIImage(systemName: "checkmark.seal")
+        completionStep.detailText = "Historia clinica completa."
+        steps.append(completionStep)
+        
+        return ORKOrderedTask(identifier: "MedicalRecord", steps: steps)
+    }
 }

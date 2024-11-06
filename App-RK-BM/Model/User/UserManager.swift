@@ -30,6 +30,7 @@ class UserManager {
                 self.user.hasAccepted = data["hasAccepted"] as? Bool ?? false
                 self.user.madeIPAQ = data["madeIPAQ"] as? Bool ?? false
                 self.user.madeMMSE = data["madeMMSE"] as? Bool ?? false
+                self.user.madeMR = data["madeMR"] as? Bool ?? false
                 self.user.uid = data["uid"] as? String ?? ""
                 // enviar user
                 completion(.success(self.user))
@@ -49,6 +50,7 @@ class UserManager {
             "hasAccepted": self.user.hasAccepted,
             "madeIPAQ": self.user.madeIPAQ,
             "madeMMSE": self.user.madeMMSE,
+            "madeMR": self.user.madeMR,
             "uid": self.user.uid
         ] as [String : Any]
         
