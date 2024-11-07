@@ -2,14 +2,14 @@
 En esta sección del modelo MVC se encuentran dos archivos, _FormsViewController.swift_ y _FormTask.swift_. 
 
 ## FormTask
-En este archivo se encuentran los formularios MMSE y IPAQ dentro de la clase con el mismo nombre del archivo, misma que esta establecida como un singleton class, _static let shared = FormTask()_, para ser posible acceder a ella desde cualquier punto.
+En este archivo se encuentran los formularios MMSE, IPAQ y la historia clinica dentro de la clase con el mismo nombre del archivo, misma que esta establecida como un singleton class, _static let shared = FormTask()_, para ser posible acceder a ella desde cualquier punto.
 
 El modo de acceder a los metodos de la clase es el siguiente: 
 * FormTask.shared.---
 
 Los formularios son devueltos como un _ORKOrderedTask_ de ResearchKit, esto permite presentar las preguntas del formulario de una manera secuencial, ordenada y bien estructurada.
 La versión elegida para cada formulario se muestra a continuación y es importante ya que en base a ella y a su orden es como se muestran las preguntas.
-<img src="./src/img/MMSE.png", alt="Formulario MMSE">
+<img src="./src/img/MMSE.png", , alt="Formulario MMSE">
 <img src="./src/img/IPAQ.png", alt="Formulario IPAQ">
 
 Las respuestas del usuario a cada pregunta se ven ligadas a la pregunta en la cual se registraron, se este modo son filtradas y subidas a Firebase
@@ -55,9 +55,49 @@ Las respuesas a este formulario se dan en enteros, ello permite el cálculo de l
 
 Finalmente este recibe el identificador "IPAQ"
 
+## Hisroria Médica
+De igual modo, este sigue el mismo patrón que los anteriores formularios, siendo este el más extenso. Los identificadores a cada pregunta se muestran a continuación:
+
+| Pregunta | Identificador |
+|----------|---------------|
+| ¿Cuál es tu nombre? | nameQuestion |
+| ¿Cuál es tu sexo? | sexQuestion |
+| Edad | ageQuestion |
+| ¿Cuál es tu peso? | weightQuestion |
+| ¿Cuánto mides? | heightQuestion |
+| ¿En qué tipo de zona vives? | residenceQuestion |
+| ¿A qué te dedicas? | occupationQuestion |
+| Ocupación (Especifica si es necesario) | 07Ocupacion |
+| Selecciona únicamente las patologías que tienen o hayan tenido tus padres o tus abuelos | pathologiesQuestion |
+| Selecciona solo las patologías mentales que tienen o tuvieron tus familiares cercanos como padre, madre, abuelo o abuela. | mentalPathologiesQuestion |
+| Selecciona las enfermedades que has padecido o padeces. | personalPathologiesQuestion |
+| ¿Tienes tu esquema de vacunación completo? | vaccinationQuestion |
+| ¿Qué tipo de bebedor de alcohol eres? | alcoholQuestion |
+| ¿Qué tipo de fumador eres? | tobaccoQuestion |
+| Selecciona la sustancia o sustancias que consumes | drugsQuestion |
+| ¿Con qué frecuencia consumes dichas sustancias? | drugsFrecuencyQuestion |
+| ¿Que tan activo eres? | physicalActivityQuestion |
+| ¿Que tipo de actividades físicas realizas? | typePhysicalActivityQuestion |
+| ¿Cuales son tus Hobbies? | hobbieQuestion |
+| ¿Cuál es tu nivel de estudios? | studyQuestion |
+| ¿Cuál es el medio de transporte que utiliza desde su casa al trabajo o escuela? | transportationQuestion |
+| ¿Cuantas comidas haces por día? | feedingQuestion |
+| ¿Que tipo de comida consumes? | typeFoodQuestion |
+
 ## FormsViewController
 Las principales funciones de este archivo es, en primer lugar, asegurarse que se los usuarios solo pueden llenar una unica vez cada formulario, esto se logra verificando los estados de la depencencia _UserManager_ en la función _buttonsFormsManager()_.
 Cuando cada boton es presionado, si es que se encuentra activo, se presenta una vista generada por ResearchKit en base al ORKOrderedTask correspondiente generada en _FormTask.swift_ como se menciono anteriormente, ResearchKit se encarga de la presentación visual de las preguntas.
 
 En `extension FormsViewController: ORKTaskViewControllerDelegate` se encuentra el código donde se gestionan los resultados de las vistas generadas por ResearchKit antes mencionadas.
 El flujo de trabajo se esta sección es el siguiente:
+
+* Primero se corrobora que la tarea haya sido completada con exito: `case .completed:`
+* Si ha sido completada la tarea del formulario, se envian los resultados de `taskViewController.result` a la función `processResults(result: result)`
+* Una vez en la función se verifica el identificador del ORKOrderedTask, como en el siguiente ejemplo ` if result.identifier == "MMSE" ` y se le da el valor a _typeForm_ en base a dicho identificador para saber cual formulario a sido completado, a su vez se cambia el valor de _UserManager_ indicando que se ha completado el formulario correspondiente.
+* Posteriormente, en el bucle for `for stepResult in stepResults` se recorre por todos los resultados generados para filtrar los que son se utilidad.
+* El filtro de dicho bucle _for_ es el siguiente: verificar que sea del tipo _ORKStepResult_ y luego si es del tipo _OrkQuestionResult_.
+* Posteeriormente se desempaqueta el resultado en `guard let answer = questionResult.answer` y se agrega el identificador del ORKQuestionStep a la lista _questionsList_.
+* Luego se agrega la respuesta, verificando primero que tipo de dato es, puede ser un string, un valor entero o un arrayChar, y se hace una conversion a String en caso que no lo sea, las respuestas se agregan a la lista _answersList_
+* Finalmente se manda el _typeForm_, _questionsList_ y _answersList_ a `StorageManager.shared.updateFormToFirestore` para subir la información a Firebase. El modo en el que esta se sube se puede ver en el readme de dicha carpeta.
+
+Este ViewController solicita al usuario acceso a la ubicación GPS mediante el modulo _LocationUtility_ con el fin de obtener información necesaria para el formulario MMSE. Tambien se creó la función _locationManagerDidChangeAuthorization_ con el fin de verificar el estado actual del acceso a la ubicación y si es posible acceder a ella.
