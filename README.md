@@ -22,15 +22,74 @@ Y como media de prevención de errores se desactivo el sandbox del proyecto en *
 <img src = "./src/img/Captura de pantalla 2024-10-15 a la(s) 1.43.27 p.m..png">
 
 ### Firebase
-Para añadir las dependencias de Firebase, primero necesitamos tener un proyecto creado en el sitio oficial de *[Firebase][4]*
+Para añadir las dependencias de Firebase, primero necesitamos tener un proyecto creado en el sitio oficial de *[Firebase][4]*. Luego nos dirigimos a la consola _(Go to console)_, una vez ahí seleccionamos la opción de crear un nuevo proyecto e ingresamos un nombre, en este caso es _FirebaseBiomarkers_, agregamos **Google Analytics** para obtener metricas del proyecto, esto es importante ya que ayudará a testear el proyecto y las aplicaciones integradas.
 
-## Obteniendo el consentimiento del usuario
-La primera tarea que el usuario realize cuando abra la aplicación es llenar y firmar el documento de consentimiento, lo cual puede llegar a ser algo complejo si no se tiene un buen dominio de ResearchKit, debido a esto y para llevar a cabo este punto se tomo como referencia el siguiente repositorio *[Research Kit + Apple Watch Tutorial (Swift 3) - Part 1: Obtaining Consent and Generating PDF][2]*. Cabe decir que este es un proyecto generado en el 2018 con la versión de 2.X de ResearchKit, aunque gran parte del código aun funciona, han habido algunos cambios puntuales en la dependencia, por lo cual el código generado en el presente punto puede estar sujeto a cambios para un optimo funcionamiento.
+Ya una vez hecho esto seleccionamos la opción de agregar una app, en este caso es de Apple. Luego ingresamos el ID del paquete de apple, este puede ser como el siguiente: **com.group.AppWithFirebase**
 
-Antes de empezar es importante mencionar que el desarrollo del código del proyecto se realizó bajo el patrón de diseño *[MVC][3]* (Modelo, Vista, Controlador) con el fin de garantizar que el código sea escalable y mantenible a travez del tiempo
+imagen 
+
+Posteriormente descargamos el archivo **GoogleService-Info.plist** y lo agregamos a nuestro proyecto tal cual se nos indica en el ejemplo.
+
+> [!IMPORTANT]  
+> Siempre que se agregen, muevan o eliminen archivos en el proyecto de Xcode debe de hacerce mediante el IDE, ya que de otra manera podrian ocurrir errores.
+
+imagen
+
+Para agregar el framework de Firebase al proyecto, en este caso se hará mediante el gestor de dependencias de Xcode y no mediante Cocoapods, para eso nos dirigimos a **Archivo** y luego a **Agregar paquete de dependencias**
+
+imagen
+
+Una vez ahí ingresamos el siguiente link `https://github.com/firebase/firebase-ios-sdk` en el cuadro de busqueda
+
+imagen
+
+Despues añadimos todos los paquetes requeridos, aunque en un inicio basta con añadir Firebase Analytics. Una vez añadidos todos los paquetes estos deben de aparecer en la parte inferior izquierda del IDE, en **Paquete de dependencias**
+
+imagen
+
+Y finalmente, en el archivo **AppDelegate.swift** agregamos la siguiente linea `FirebaseApp.configure()`, quedando algo como esto 
+
+```
+
+import UIKit
+
+import FirebaseCore
+
+
+@UIApplicationMain
+
+class AppDelegate: UIResponder, UIApplicationDelegate {
+
+
+  var window: UIWindow?
+
+
+  func application(_ application: UIApplication,
+
+    didFinishLaunchingWithOptions launchOptions:
+
+      [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+
+    FirebaseApp.configure()
+
+    return true
+
+  }
+
+}
+
+```
+
+Esto es importante ya que sin dicha linea Firebase no se iniciará junto con la aplicación al correrla. Y asi queda finalmente instalado Firebase en el proyecto.
+
+## Links de interes
+* [FIREBASE iOS 🔥 Curso XCODE desde CERO][5]
+* [Research Kit + Apple Watch Tutorial: Part 1][6]
 
 
 [1]: https://github.com/researchkit/researchkit
 [2]: https://gist.github.com/sye8/5472c425439e134ecd4afeee0957e38b
 [3]: https://developer.mozilla.org/es/docs/Glossary/MVC
 [4]: https://firebase.google.com/?hl=es-419
+[5]: https://www.youtube.com/watch?v=1EAA8WgCQas&t=1830s
+[6]: https://sigabrt428661558.wordpress.com/tutorials/swift/researchkit/research-kit-apple-watch-tutorial-part-1/
