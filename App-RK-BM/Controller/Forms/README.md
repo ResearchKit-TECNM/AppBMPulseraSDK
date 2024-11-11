@@ -67,7 +67,7 @@ De igual modo, este sigue el mismo patrón que los anteriores formularios, siend
 | ¿Cuánto mides? | heightQuestion |
 | ¿En qué tipo de zona vives? | residenceQuestion |
 | ¿A qué te dedicas? | occupationQuestion |
-| Ocupación (Especifica si es necesario) | 07Ocupacion |
+| Ocupación (Especifica si es necesario) | OccupationQuestion3 |
 | Selecciona únicamente las patologías que tienen o hayan tenido tus padres o tus abuelos | pathologiesQuestion |
 | Selecciona solo las patologías mentales que tienen o tuvieron tus familiares cercanos como padre, madre, abuelo o abuela. | mentalPathologiesQuestion |
 | Selecciona las enfermedades que has padecido o padeces. | personalPathologiesQuestion |
@@ -100,4 +100,4 @@ El flujo de trabajo se esta sección es el siguiente:
 * Luego se agrega la respuesta, verificando primero que tipo de dato es, puede ser un string, un valor entero o un arrayChar, y se hace una conversion a String en caso que no lo sea, las respuestas se agregan a la lista _answersList_
 * Finalmente se manda el _typeForm_, _questionsList_ y _answersList_ a `StorageManager.shared.updateFormToFirestore` para subir la información a Firebase. El modo en el que esta se sube se puede ver en el readme de dicha carpeta.
 
-Este ViewController solicita al usuario acceso a la ubicación GPS mediante el modulo _LocationUtility_ con el fin de obtener información necesaria para el formulario MMSE. Tambien se creó la función _locationManagerDidChangeAuthorization_ con el fin de verificar el estado actual del acceso a la ubicación y si es posible acceder a ella.
+Este ViewController solicita al usuario acceso a la ubicación GPS mediante el modulo _LocationUtility_ con el fin de obtener información necesaria para el formulario MMSE. Especificamente se solicita en `LocationUtility.shared.requestLocationAuthorization()`, para mas información de _LocationUtility_ favor de revisarlo en su carpeta en el README.md.
