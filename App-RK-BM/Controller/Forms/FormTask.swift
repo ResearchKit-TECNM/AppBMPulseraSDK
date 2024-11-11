@@ -20,7 +20,7 @@ class FormTask {
         textLetterAnswerFormat.multipleLines = true
         let textAnswerFormat = ORKTextAnswerFormat(maximumLength: 40)
         textAnswerFormat.multipleLines = false
-        let numericAnswerFormat = ORKNumericAnswerFormat.integerAnswerFormat(withUnit: nil)
+        let numericAnswerFormat = ORKNumericAnswerFormat(style: .integer)
         
         // Instrucciones
         let instructionStep = ORKInstructionStep(identifier: "instruction")
@@ -143,15 +143,9 @@ class FormTask {
         
         var steps = [ORKStep]()
         
-        // formatos de respuestas
-        
-        let numericDaysWeekFormat = ORKNumericAnswerFormat.integerAnswerFormat(withUnit: nil)
-        numericDaysWeekFormat.minimum = 0
-        numericDaysWeekFormat.maximum = 7
-        
-        let numericMinutesOfActivityFormat = ORKNumericAnswerFormat.integerAnswerFormat(withUnit: nil)
-        numericMinutesOfActivityFormat.minimum = 0
-        numericMinutesOfActivityFormat.maximum = 1000
+        // formatos de respuesta
+        let scaleDaysWeekFormat = ORKScaleAnswerFormat(maximumValue: 7, minimumValue: 0, defaultValue: 0, step: 1)
+        let scaleMinutesDayAnswerFormat = ORKNumericAnswerFormat(style: .integer, unit: "min", minimum: 0, maximum: 300)
         
         
         // Instrucciones iniciales
@@ -169,11 +163,12 @@ class FormTask {
         steps.append(vigorousQuestionsInstructionsStep)
         
         // actividad vigorosa
-        
-        let firstQuestionStep = ORKQuestionStep(identifier: "firstQuestionVigorous", title: "Actividades Vigorosas", question: "1. Durante los últimos 7 días ¿En cuántos realizo actividades físicas vigorosas tales como levantar pesos pesados, cavar, hacer ejercicios aeróbicos o andar rápido en bicicleta?", answer: numericDaysWeekFormat)
+        let firstQuestionStep = ORKQuestionStep(identifier: "firstQuestionVigorous", title: "Actividades Vigorosas", question: "1. Durante los últimos 7 días ¿En cuántos realizo actividades físicas vigorosas tales como levantar pesos pesados, cavar, hacer ejercicios aeróbicos o andar rápido en bicicleta?", answer: scaleDaysWeekFormat)
+        firstQuestionStep.isOptional = false
         steps.append(firstQuestionStep)
         
-        let secondQuestionStep = ORKQuestionStep(identifier: "secondQuestionVigorous", title: "Actividades vigorosas", question: "2. Habitualmente, ¿Cuánto tiempo en total en minutos dedicó a una actividad física intensa en uno de esos días? (ejemplo: si practicó 1 hora y 20 minutos ingrese 80 minutos)", answer: numericMinutesOfActivityFormat)
+        let secondQuestionStep = ORKQuestionStep(identifier: "secondQuestionVigorous", title: "Actividades vigorosas", question: "2. Habitualmente, ¿Cuánto tiempo en total en minutos dedicó a una actividad física intensa en un dia promedio? (ejemplo: si practicó 1 hora y 30 minutos ingrese 90 minutos)", answer: scaleMinutesDayAnswerFormat)
+        secondQuestionStep.isOptional = false
         steps.append(secondQuestionStep)
         
         // actividad moderada
@@ -184,10 +179,12 @@ class FormTask {
         moderateQuestionsInstructionsStep.text = "Piense en todas las actividades MODERADAS que usted realizó en los últimos 7 días. Las actividades moderadas son aquellas que requieren un esfuerzo físico moderado que lo hace respirar algo más intensamente que lo normal. Piense solo en aquellas actividades que realizó durante por lo menos 10 minutos seguidos."
         steps.append(moderateQuestionsInstructionsStep)
         
-        let thirdQuestionStep = ORKQuestionStep(identifier: "thirdQuestionModerate", title: "Actividades moderadas", question: "3. Durante los últimos 7 días, ¿En cuántos días hizo actividades físicas moderadas como transportar pesos livianos, andar en bicicleta a velocidad regular o jugar a dobles en tenis? No incluya caminar.", answer: numericDaysWeekFormat)
+        let thirdQuestionStep = ORKQuestionStep(identifier: "thirdQuestionModerate", title: "Actividades moderadas", question: "3. Durante los últimos 7 días, ¿En cuántos días hizo actividades físicas moderadas como transportar pesos livianos, andar en bicicleta a velocidad regular o jugar a dobles en tenis? No incluya caminar.", answer: scaleDaysWeekFormat)
+        thirdQuestionStep.isOptional = false
         steps.append(thirdQuestionStep)
         
-        let fourthQuestionStep = ORKQuestionStep(identifier: "fourthQuestionModerate", title: "Actividades moderadas", question: "4. Habitualmente, ¿Cuánto tiempo en total en minutos dedicó a una actividad física moderada en uno de esos días? (ejemplo: si practicó 1 hora y 20 minutos ingrese 80 minutos)", answer: numericMinutesOfActivityFormat)
+        let fourthQuestionStep = ORKQuestionStep(identifier: "fourthQuestionModerate", title: "Actividades moderadas", question: "4. Habitualmente, ¿Cuánto tiempo en total en minutos dedicó a una actividad física moderada en un dia promedio? (ejemplo: si practicó 1 hora y 30 minutos ingrese 90 minutos)", answer: scaleMinutesDayAnswerFormat)
+        fourthQuestionStep.isOptional = false
         steps.append(fourthQuestionStep)
         
         // caminar
@@ -196,10 +193,12 @@ class FormTask {
         walkQuestionsInstructionsStep.text = "Piense en el tiempo que usted dedicó a CAMINAR en los últimos 7 días. Esto incluye caminar en el trabajo o en la casa, para trasladarse de un lugar a otro, o cualquier otra caminata que usted podría hacer solamente para la recreación, el deporte, el ejercicio o el ocio."
         steps.append(walkQuestionsInstructionsStep)
         
-        let fifthQuestionStep = ORKQuestionStep(identifier: "fifthQuestionWalk", title: "Caminar", question: "5. Durante los últimos 7 días, ¿En cuántos caminó por lo menos 10 minutos seguidos?", answer: numericDaysWeekFormat)
+        let fifthQuestionStep = ORKQuestionStep(identifier: "fifthQuestionWalk", title: "Caminar", question: "5. Durante los últimos 7 días, ¿En cuántos caminó por lo menos 10 minutos seguidos?", answer: scaleDaysWeekFormat)
+        fifthQuestionStep.isOptional = false
         steps.append(fifthQuestionStep)
         
-        let sixthQuestionStep = ORKQuestionStep(identifier: "sixthQuestionWalk", title: "Caminar", question: "6. Habitualmente, ¿Cuánto tiempo en total en minutos dedicó a caminar en uno de esos días?", answer: numericMinutesOfActivityFormat)
+        let sixthQuestionStep = ORKQuestionStep(identifier: "sixthQuestionWalk", title: "Caminar", question: "6. Habitualmente, ¿Cuánto tiempo en total en minutos dedicó a caminar en uno de esos días en promedio?", answer: scaleMinutesDayAnswerFormat)
+        sixthQuestionStep.isOptional = false
         steps.append(sixthQuestionStep)
         
         // sedentarismo
@@ -208,7 +207,9 @@ class FormTask {
         sedentaryInstructionsStep.text = "La ultima pregunta es acerca del tiempo que pasó usted SENTADO durante los días hábiles de los últimos 7 dias. Esto incluye el tiempo dedicado al trabajo, en la casa, en una clase, y durante el tiempo libre. Puede incluir el tiempo que paso sentado ante un escritorio, leyendo, viajando en autobús, o sentado o recostado mirando tele."
         steps.append(sedentaryInstructionsStep)
         
-        let seventhQuestionStep = ORKQuestionStep(identifier: "seventhQuestionSedentary", title: "Sedentarismo", question: "7. Habitualmente, ¿Cuánto tiempo en minutos pasó sentado durante un día hábil?", answer: numericMinutesOfActivityFormat)
+        let scaleSedentaryQuestion = ORKNumericAnswerFormat(style: .integer, unit: "min", minimum: 0, maximum: 480)
+        let seventhQuestionStep = ORKQuestionStep(identifier: "seventhQuestionSedentary", title: "Sedentarismo", question: "7. Habitualmente, ¿Cuánto tiempo en minutos pasó sentado durante un día hábil?", answer: scaleSedentaryQuestion)
+        seventhQuestionStep.isOptional = false
         steps.append(seventhQuestionStep)
         
         //Fin de la prueba
@@ -237,6 +238,7 @@ class FormTask {
         personalInfoStep.title = "Información personal"
         personalInfoStep.text = "Acontinuación se te pedirá datos de tu información personal"
         personalInfoStep.image = UIImage(systemName: "person.fill")
+        personalInfoStep.imageContentMode = .scaleAspectFit
         steps.append(personalInfoStep)
         
         let nameQuestionStep = ORKQuestionStep(identifier: "nameQuestion", title: "Nombre", question: "¿Cuál es tu nombre?", answer: textAnswerFormat)
@@ -319,6 +321,7 @@ class FormTask {
         hereditaryInfoStep.title = hereditaryInfoStepTitle
         hereditaryInfoStep.text = "En esta área te preguntaremos acerca de las enfermedades que padecen en tu familia"
         hereditaryInfoStep.image = UIImage(systemName: "person.3.fill")
+        hereditaryInfoStep.imageContentMode = .scaleAspectFit
 
         // patologias hereditarias
         let patologyChoice = "Patologías"
@@ -360,6 +363,7 @@ class FormTask {
         persInfoStep.title = persInfoStepTitle
         persInfoStep.text = "En esta sección te haremos preguntas con respecto a las enfermedades que has padecido o padeces"
         persInfoStep.image = UIImage(systemName: "person.crop.circle")
+        persInfoStep.imageContentMode = .scaleAspectFit
         steps.append(persInfoStep)
         
         // enfermedades propias
@@ -464,6 +468,7 @@ class FormTask {
         noPersInfoStep.title = noPersInfoStepTitle
         noPersInfoStep.text = "En esta sección, encontrará preguntas sobre sus antecedentes no patológicos, como sus actividades diarias y hábitos personales."
         noPersInfoStep.image = UIImage(systemName: "book.fill")
+        noPersInfoStep.imageContentMode = .scaleAspectFit
         steps.append(noPersInfoStep)
 
         // pregunta de actividad física en escala de likert
