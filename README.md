@@ -26,26 +26,29 @@ Para añadir las dependencias de Firebase, primero necesitamos tener un proyecto
 
 Ya una vez hecho esto seleccionamos la opción de agregar una app, en este caso es de Apple. Luego ingresamos el ID del paquete de apple, este puede ser como el siguiente: **com.group.AppWithFirebase**
 
-imagen 
+<img src = "./src/img/Firebase 6.png">
 
 Posteriormente descargamos el archivo **GoogleService-Info.plist** y lo agregamos a nuestro proyecto tal cual se nos indica en el ejemplo.
 
 > [!IMPORTANT]  
 > Siempre que se agregen, muevan o eliminen archivos en el proyecto de Xcode debe de hacerce mediante el IDE, ya que de otra manera podrian ocurrir errores.
 
-imagen
+<img src = "./src/img/Firebase 5.png">
 
 Para agregar el framework de Firebase al proyecto, en este caso se hará mediante el gestor de dependencias de Xcode y no mediante Cocoapods, para eso nos dirigimos a **Archivo** y luego a **Agregar paquete de dependencias**
 
-imagen
+<img src = "./src/img/Firebase 4.png">
 
 Una vez ahí ingresamos el siguiente link `https://github.com/firebase/firebase-ios-sdk` en el cuadro de busqueda
 
-imagen
+<img src = "./src/img/Firebase 3.png">
+
+Nos debe de aparecer algo como esto:
+<img src = "./src/img/Firebase 2.png">
 
 Despues añadimos todos los paquetes requeridos, aunque en un inicio basta con añadir Firebase Analytics. Una vez añadidos todos los paquetes estos deben de aparecer en la parte inferior izquierda del IDE, en **Paquete de dependencias**
 
-imagen
+<img src = "./src/img/Firebase 1.png">
 
 Y finalmente, en el archivo **AppDelegate.swift** agregamos la siguiente linea `FirebaseApp.configure()`, quedando algo como esto 
 
