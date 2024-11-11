@@ -73,7 +73,9 @@
 		8459AB6B2CBEDF1100819BC3 /* Exceptions for "App-RK-BM" folder in "App-RK-BM" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				Controller/Forms/README.md,
 				Info.plist,
+				Model/User/README.md,
 			);
 			target = 8459AB582CBEDF0E00819BC3 /* App-RK-BM */;
 		};

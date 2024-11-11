@@ -28,11 +28,16 @@ class LocationUtility: NSObject, CLLocationManagerDelegate {
     }
     
     func startUpdatingLocation() {
-        locationManager.startUpdatingLocation()
+        locationManager.startUpdatingLocation() // Comienza a recibir actualizaciones de la ubicación
+    }
+    
+    func requesLocation() {
+        locationManager.requestLocation()
     }
         
     // Método para manejar la ubicación obtenida
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        print("\t Ubicación actualizada: \(locations)")
         guard let location = locations.last else { return }
         fetchLocationDetails(location: location) { country, state, locality in
             DispatchQueue.main.async {
@@ -45,7 +50,7 @@ class LocationUtility: NSObject, CLLocationManagerDelegate {
                 }
             }
         }
-        locationManager.startUpdatingLocation()
+        self.locationManager.stopUpdatingLocation() // Detenemos la actualización si solo necesitamos una vez
     }
 
     // Función para obtener detalles de ubicación usando CLGeocoder
@@ -71,6 +76,15 @@ class LocationUtility: NSObject, CLLocationManagerDelegate {
     // Manejo de errores en caso de falla
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print("Error al obtener la ubicación: \(error.localizedDescription)")
+    }
+    
+    // Opcional: Método delegado para manejar cambios en el estado de autorización
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+        if manager.authorizationStatus == .authorizedWhenInUse || manager.authorizationStatus == .authorizedAlways {
+            self.startUpdatingLocation()
+        } else {
+            print("Permiso de ubicación denegado o restringido")
+        }
     }
 }
 

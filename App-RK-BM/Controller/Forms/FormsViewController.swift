@@ -21,7 +21,6 @@ class FormsViewController: UIViewController, CLLocationManagerDelegate {
         title = "Formularios"
         
         // solicitar permisos para usar la ubicación
-        LocationUtility.shared.locationManager.delegate = self
         LocationUtility.shared.requestLocationAuthorization()
         
         // observador para saber cuando los datos estan listos
@@ -31,7 +30,7 @@ class FormsViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     @objc func locationDataIsReady() {
-        print("Los datos de ubicación están listos y almacenados en LocationUtility.")
+        print("\t Los datos de ubicación están listos y almacenados en LocationUtility.")
     }
     
     func buttonsFormsManager() {
@@ -79,16 +78,6 @@ class FormsViewController: UIViewController, CLLocationManagerDelegate {
     @IBAction func backButtonTapped(_ sender: UIButton) {
         // seguir con el unwindSegue
         performSegue(withIdentifier: "unwindToTaskView", sender: self)
-    }
-    
-    // ubicación
-    // Opcional: Método delegado para manejar cambios en el estado de autorización
-    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
-        if manager.authorizationStatus == .authorizedWhenInUse || manager.authorizationStatus == .authorizedAlways {
-            LocationUtility.shared.startUpdatingLocation()
-        } else {
-            print("Permiso de ubicación denegado o restringido")
-        }
     }
 }
 

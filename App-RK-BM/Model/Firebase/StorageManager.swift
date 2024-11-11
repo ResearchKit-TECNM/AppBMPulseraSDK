@@ -63,13 +63,9 @@ class StorageManager {
                 data["currentDay"] = currentDate.dayNumber
                 data["currentDayWeek"] = currentDate.dayName
                 // localización
-                if !country.isEmpty, !state.isEmpty, !locality.isEmpty {
-                    data["currentCountry"] = LocationUtility.shared.userCountry
-                    data["currentState"] = LocationUtility.shared.userState
-                    data["currentLocality"] = LocationUtility.shared.userLocality
-                } else {
-                    print("\tLa ubicación aún no estaba disponible")
-                }
+                data["currentCountry"] = !country.isEmpty ? LocationUtility.shared.userCountry : "countryUnavailable"
+                data["currentState"] = !state.isEmpty ? LocationUtility.shared.userState : "stateUnavailable"
+                data["currentLocality"] = !locality.isEmpty ? LocationUtility.shared.userLocality : "localityUnavailable"
             }
             
             print(data)
