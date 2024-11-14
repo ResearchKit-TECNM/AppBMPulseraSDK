@@ -1,0 +1,8 @@
+# Modelo del control de datos con Firebase-Firestore-Storage
+## Clase StorageManager
+Esta clase tiene como objetivo gestionar la carga de información a Firestore generada en los formularios y del documento de consentimiento del estudio en Storage.
+### Propiedades
+* **shared**: singleton para una instancia única en todo el proyecto.
+### Métodos
+* **uploadPDFConsent(fileURL: URL)**: este carga el documento de consentimiento generado por ResearchKit en Firebase-Storage mediante la siguiente ruta _/userDocuments/User.uid/consent.pdf_, esta se le ha de pasar la URL local del archivo en el dispositivo. Si el archivo ha sido cargado con exito entonces se obtiene la URL del documento en Firebase y se almacena mediante UserManager.
+* **updateFormToFirestore(type: String, questions: [String], answers: [String])**: este tiene como objetivo subir las respuestas de los formularios MMSE, IPAQ y MR a Firebase-Firestore, recibe el identificador del tipo de formulario **type: String**, un listado con el identificador de las preguntas **questions: [String]** y otro listado con el valor de las respuestas **answers: [String]**. Este método se ha declarado como asincrono **DispatchQueue.global(qos: .background).async** para que no ralentise la aplicación. Crea una variable tipo _DATA_ para que sea posible subir la información. En el caso del formulario MMSE este añade valores adicionales que no fueron agregados anteriormente y que son de vital importancia, como la fecha y el lugar donde se encuentra el usuario al momento de llenar dicho formulario. La ruta de almacenamiento en Firestore es la siguiente _/typeForm/User.uid/DATA_.
