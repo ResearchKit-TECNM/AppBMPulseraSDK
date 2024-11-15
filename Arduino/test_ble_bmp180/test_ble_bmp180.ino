@@ -12,6 +12,8 @@
 #include <Adafruit_Sensor.h>
 #include <Adafruit_BMP085_U.h>
 
+#define pinLED 2
+
 // Crear una instancia del sensor bmp180
 Adafruit_BMP085_Unified bmp = Adafruit_BMP085_Unified(10085);
 
@@ -45,6 +47,7 @@ class MyServerCallbacks: public BLEServerCallbacks {
   void onConnect(BLEServer* pServer) {
     deviceConnected = true;
     Serial.println("Nuevo dispositivo conectado!");
+    digitalWrite(pinLED, HIGH);
   }
 
   void onDisconnect(BLEServer* pServer) {
@@ -54,6 +57,7 @@ class MyServerCallbacks: public BLEServerCallbacks {
     // reiniciar la publicidad BLE
     pServer->getAdvertising()->start();
     Serial.println("Reiniciando publicidad BLE...");
+    digitalWrite(pinLED, LOW);
   }
 };
 
@@ -119,6 +123,8 @@ void setup() {
   pService->start();
   pServer->getAdvertising()->start();
   Serial.println("Publicidad BLE iniciada, esperando conexión...");
+
+  pinMode(pinLED, OUTPUT);
 }
 
 void loop() {

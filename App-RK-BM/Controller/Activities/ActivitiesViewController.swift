@@ -55,8 +55,12 @@ class ActivitiesViewController: UIViewController, BluetoothManagerDelegate {
     func didReceiveData(_ data: String) {
         print("Datos recibidos: \(data)")
         print("En activities view controller")
-        DispatchQueue.main.async {
-            self.dataLabel.text = "Datos recibidos: " + data
+        if self.isViewLoaded && self.view.window != nil {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                self.showAlert(title: "Datos del ESP32", mmessage: "Datos recibidos: \(data)")
+            }
+        } else {
+            print("La vista NO está en la jerarquía de vistas")
         }
     }
 }
